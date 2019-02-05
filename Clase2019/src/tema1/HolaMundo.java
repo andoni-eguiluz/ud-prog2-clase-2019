@@ -1,3 +1,4 @@
+package tema1;
 
 /** Clase de inicio de Programación II
  * Para honrar la generosidad y apertura que caracteriza a nuestra profesión,

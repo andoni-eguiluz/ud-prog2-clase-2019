@@ -1,5 +1,8 @@
 package tema1.ejemplos;
 
+/** Ejemplo de esbozo de clase instanciable: SensorPresencia
+ * @author andoni.eguiluz @ ingenieria.deusto.es
+ */
 public class SensorPresencia {
 	int cantidadPresencia; // num de 0 a 255 0=nada 255=todo se mueve
 	boolean encendido;

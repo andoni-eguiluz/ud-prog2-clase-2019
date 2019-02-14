@@ -46,6 +46,7 @@ public class HolaMundo {
 		// Pero el resto de objetos ya necesitan una construcción formal con el constructor de la clase:
 		Date fecha = new Date();
 		System.out.println( fecha );
+		java.sql.Date d2;
 	}
 	
 }

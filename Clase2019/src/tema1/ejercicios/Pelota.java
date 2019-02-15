@@ -1,4 +1,4 @@
-package tema1.ejemplos;
+package tema1.ejercicios;
 import java.awt.Color;
 import java.awt.Point;
 

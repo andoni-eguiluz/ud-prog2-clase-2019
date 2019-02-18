@@ -6,7 +6,7 @@ import tema1.VentanaGrafica;
 
 /** Clase que permite crear y gestionar pelotas y dibujarlas en una ventana gráfica
  */
-public class Pelota {
+public class Pelota2 {
 	
 	// =================================================
 	// PARTE STATIC
@@ -17,7 +17,7 @@ public class Pelota {
 	 */
 	public static void main(String[] args) {
 		// Creamos una pelota en (300,300) con radio 200
-		Pelota p1 = new Pelota();
+		Pelota2 p1 = new Pelota2();
 		p1.x = 300;
 		p1.y = 300;
 		p1.radio = 200;
@@ -78,7 +78,7 @@ public class Pelota {
 	}
 
 	// Dibuja una pelota en la ventana, espera un segundo y la borra
-	private static void dibujaYBorra( VentanaGrafica v, Pelota r ) {
+	private static void dibujaYBorra( VentanaGrafica v, Pelota2 r ) {
 		r.dibuja( v );
 		v.espera( 1000 );
 		r.borra( v );
@@ -86,7 +86,7 @@ public class Pelota {
 	
 	// Dibuja una pelota en la ventana y hace que crezca hasta el nuevo radio indicado 
 	// Va dibujando esa pelota mientras su radio crece o decrece (de píxel en píxel)
-	private static void dibujaYCrece( VentanaGrafica v, Pelota p, double nuevoRadio ) {
+	private static void dibujaYCrece( VentanaGrafica v, Pelota2 p, double nuevoRadio ) {
 		if (p.radio<nuevoRadio) { // Si el radio tiene que crecer
 			while (p.radio<nuevoRadio) {
 				p.dibuja( v ); // Dibuja, espera 10 milisegundos y borra para causar el efecto visual
@@ -111,15 +111,10 @@ public class Pelota {
 	// =================================================
 	
 	private double radio;  // Radio de pelota
-	public double x;      // Coordenada x de centro de pelota
-	public double y;      // Coordenada y de centro de pelota
+	private double x;      // Coordenada x de centro de pelota
+	private double y;      // Coordenada y de centro de pelota
 	private char color;    // Color de la pelota ('a' = azul, 'v' = verde)
-	private boolean bota = true;  // Información de si la pelota bota o no
-	
-	// Esto es lo que hace Java (constructor por defecto)
-	// public Pelota() {
-		// Código vacío
-	// }
+	private boolean bota;  // Información de si la pelota bota o no
 	
 	/** Calcula el volumen de la pelota partiendo de su información de radio
 	 * @return	Volumen de la pelota suponiendo una esfera perfecta
@@ -146,8 +141,5 @@ public class Pelota {
 	}
 	
 	// Faltan gets y sets (para exponer y poder modificar públicamente los atributos)
-
-	public String toString() {
-		return x + "," + y;
-	}
+	
 }

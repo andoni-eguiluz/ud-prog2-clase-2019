@@ -5,6 +5,7 @@ import java.awt.Point;
 import tema1.VentanaGrafica;
 
 /** Clase que permite crear y gestionar pelotas y dibujarlas en una ventana gráfica
+ * Versión 2 con más y mejores métodos y visibilidad de atributos
  */
 public class Pelota2 {
 	
@@ -110,10 +111,10 @@ public class Pelota2 {
 	// PARTE DE OBJETO (NO STATIC)
 	// =================================================
 	
-	private double radio;  // Radio de pelota
-	private double x;      // Coordenada x de centro de pelota
-	private double y;      // Coordenada y de centro de pelota
-	private char color;    // Color de la pelota ('a' = azul, 'v' = verde)
+	public double radio;  // Radio de pelota
+	public double x;      // Coordenada x de centro de pelota
+	public double y;      // Coordenada y de centro de pelota
+	public char color;    // Color de la pelota ('a' = azul, 'v' = verde)
 	private boolean bota;  // Información de si la pelota bota o no
 	
 	/** Calcula el volumen de la pelota partiendo de su información de radio
@@ -141,5 +142,13 @@ public class Pelota2 {
 	}
 	
 	// Faltan gets y sets (para exponer y poder modificar públicamente los atributos)
+
+	public String toString() {
+		return x + "," + y;
+	}
+	
+	public void visualiza() {
+		System.out.println( this.x + "," + this.y + " - Radio " + this.radio  );
+	}
 	
 }

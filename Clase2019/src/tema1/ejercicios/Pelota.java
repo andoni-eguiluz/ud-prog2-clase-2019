@@ -147,7 +147,4 @@ public class Pelota {
 	
 	// Faltan gets y sets (para exponer y poder modificar públicamente los atributos)
 
-	public String toString() {
-		return x + "," + y;
-	}
 }

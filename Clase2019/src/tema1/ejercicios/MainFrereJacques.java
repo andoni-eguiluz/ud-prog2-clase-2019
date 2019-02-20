@@ -1,6 +1,8 @@
 package tema1.ejercicios;
 
 import tema1.Pianillo;
+import tema1.ejerciciosResueltos.Acompanyamiento;
+import tema1.ejerciciosResueltos.Cancion;
 
 /** Clase principal de ejercicio 1.8 de tocar música partiendo de notas. Toca Frere Jacques
  * Usa la clase de utilidad {@link tema1.Pianillo}

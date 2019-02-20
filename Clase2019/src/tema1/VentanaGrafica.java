@@ -24,8 +24,8 @@ public class VentanaGrafica {
 		private Object lock = new Object();  // Tema de sincronización de hilos para el acceso como si no los hubiera
 	
 	/** Construye una nueva ventana gráfica con fondo blanco y la visualiza en el centro de la pantalla
-	 * @param anchura	Anchura en píxels (valor positivo)
-	 * @param altura	Altura en píxels (valor positivo)
+	 * @param anchura	Anchura en píxels (valor positivo) de la zona de pintado
+	 * @param altura	Altura en píxels (valor positivo) de la zona de pintado
 	 * @param titulo	Título de la ventana
 	 */
 	@SuppressWarnings("serial")

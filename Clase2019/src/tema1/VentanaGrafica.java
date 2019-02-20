@@ -33,8 +33,7 @@ public class VentanaGrafica {
 		cerrada = false;
 		ventana = new JFrame( titulo );
 		ventana.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		ventana.setSize( anchura, altura );
-		ventana.setLocationRelativeTo( null );
+		// ventana.setSize( anchura, altura ); -- se hace en función del tamaño preferido del panel de dibujo
 		buffer = new BufferedImage( 2000, 1500, BufferedImage.TYPE_INT_ARGB );
 		graphics = buffer.createGraphics();
 		graphics.setPaint ( Color.white );
@@ -49,9 +48,12 @@ public class VentanaGrafica {
 				((Graphics2D)g).drawImage( buffer, null, 0, 0 );
 			}
 		};
+		panel.setPreferredSize( new Dimension( anchura, altura ));
 		lMens = new JLabel( " " );
 		ventana.getContentPane().add( panel, BorderLayout.CENTER );
 		ventana.getContentPane().add( lMens, BorderLayout.SOUTH );
+		ventana.pack();
+		ventana.setLocationRelativeTo( null );
 		ventana.addWindowListener( new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

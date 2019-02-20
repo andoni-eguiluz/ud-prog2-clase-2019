@@ -14,17 +14,18 @@ public class PruebaPelota {
 		conceptosDeObjetos2();
 	}
 
-	// Crear pelotas aleatorias
+	// Crear pelotas aleatorias en un tablero virtual de 5x5
 	private static void conceptosDeObjetos2() {
-		VentanaGrafica v = new VentanaGrafica( 1000, 700, "Ventana gráfica con pelotas" );
+		int anchoTablero = 200;
+		int altoTablero = 150;
+		VentanaGrafica v = new VentanaGrafica( anchoTablero*5, altoTablero*5, "Ventana gráfica con pelotas 5x5" );
 		Random r = new Random();
-		for (int i=0; i<50; i++) {
+		for (int i=0; i<20; i++) {
 			Pelota2 p = new Pelota2();
 			contadorPelotas++;
-			p.x = r.nextInt(1000);
-			p.y = r.nextInt(700);
-			p.radio = r.nextInt(91) + 10;
-			p.color = 'a';
+			p.x = r.nextInt(5) * anchoTablero + (anchoTablero/2); // Posición aleatoria de centro en 5 filas
+			p.y = r.nextInt(5) * altoTablero + (altoTablero/2);  // Posición aleatoria de centro en 5 columnas
+			p.radio = 50; // r.nextInt(91) + 10; // Radio aleatorio entre 10 y 100
 			p.dibuja( v );
 		}
 		v.setMensaje( contadorPelotas + " pelotas creadas." );

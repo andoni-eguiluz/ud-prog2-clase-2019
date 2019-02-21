@@ -11,7 +11,7 @@ import javax.sound.sampled.*;
 
 /**
  *  Clase con capacidad básica para reproducir audio basado en frecuencia,
- *  con posibilidad de reproducir varios tonos de forma paralela ("canales").<br/>
+ *  con posibilidad de reproducir varios tonos de forma paralela ("canales").<br>
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class Pianillo {
@@ -152,9 +152,6 @@ public class Pianillo {
      * @param  sample Sample a enviar
      * @throws IllegalArgumentException si el sample es {@code Double.NaN}
      */
-    /**
-     * @param sample
-     */
     public static void mandaSample(int canal, double sample) {
     	// El play real lo hace el hilo. Este play solo alimenta a la estructura de datos
     	vsp[canal].add( new SamplesPendientes( new double[] { sample } ) );
@@ -176,8 +173,8 @@ public class Pianillo {
 
     /**
      * Envía silencio al canal de sonido indicado
-     * @param	Número de canal a reproducir
-     * @param  tiempo de sonido a enviar (en segundos)
+     * @param canal	Número de canal a reproducir
+     * @param segundos tiempo de sonido a enviar (en segundos)
      * @throws IllegalArgumentException si el canal es un número inválido
      * @throws IllegalArgumentException si el tiempo es negativo
      */
@@ -274,7 +271,7 @@ public class Pianillo {
      * @param hz	Frecuencia en Hz (por ejemplo 440 Hz = LA central -octava 4-)
      * @param duration	Duración en segundos
      * @param amplitud	Volumen (0 - 1.0)
-     * @return
+     * @return	Samples de audio correspondientes a esa nota
      */
     public static double[] samplesDeNota(double hz, double duration, double amplitud) {
     	// Cálculo de corrección de volumen (el oído humano no percibe de forma regular el volumen por frecuencias)
@@ -337,7 +334,7 @@ public class Pianillo {
     }
 
     /** Espera los segundos indicados
-     * @param ms	Número de segundos a esperar
+     * @param segs	Número de segundos a esperar
      */
     public static void esperaSegs( double segs ) {
     	try { Thread.sleep( (int) (segs * 1000) ); } catch (InterruptedException e) {}

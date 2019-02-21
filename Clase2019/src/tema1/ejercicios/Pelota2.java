@@ -151,4 +151,11 @@ public class Pelota2 {
 		System.out.println( this.x + "," + this.y + " - Radio " + this.radio  );
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		Pelota2 p2 = (Pelota2) obj;  // Cast de obj a Pelota2 (lo entenderemos mejor al ver herencia)
+		// TODO  Devolver aquí true o false dependiendo de las coordenadas de las pelotas this y p2
+		return false; // cambiar
+	}
+	
 }

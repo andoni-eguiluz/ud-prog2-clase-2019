@@ -637,6 +637,7 @@ public void anyadeBoton( String texto, ActionListener evento ) {
 		boolean subiendo = true;
 		for (int i=0; i<=800; i++) {
 			v.borra();
+			v.dibujaTexto( i+100, 100+(i/4), "texto móvil", new Font( "Arial", Font.PLAIN, 16 ), Color.black );
 			v.dibujaImagen( "/img/UD-green.png", i, altura, 1.0, 0.0, 1.0f );
 			if (subiendo) {
 				altura--;
@@ -645,7 +646,7 @@ public void anyadeBoton( String texto, ActionListener evento ) {
 				altura++;
 				if (altura>=v.getAltura()) subiendo = true;
 			}
-//			v.repaint();
+			v.repaint();
 			v.espera( 10 );
 		}
 		v.espera( 5000 );

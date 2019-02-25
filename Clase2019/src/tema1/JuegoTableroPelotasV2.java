@@ -3,13 +3,13 @@ package tema1;
 import java.awt.Point;
 import java.util.Random;
 
-import tema1.ejercicios.Pelota3;
+import tema1.ejercicios.Pelota4;
 
 /** Planteamiento de hipotético juego de "fichas" redondas en un tablero de 5x5<br>
  * Solución de ejercicio 1.9
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
-public class JuegoTableroPelotas {
+public class JuegoTableroPelotasV2 {
 	private static int contadorPelotas = 0;
 	private static final int ANCHO_CASILLA = 200;
 	private static final int ALTO_CASILLA = 150;
@@ -27,19 +27,20 @@ public class JuegoTableroPelotas {
 	private static void lanzaTablero() {
 		VentanaGrafica v = new VentanaGrafica( ANCHO_CASILLA*5, ALTO_CASILLA*5, "Mueve las fichas con drag & drop" );
 		Random r = new Random();
-		Pelota3[] tablero = new Pelota3[numPelotasEnTablero];
+		Pelota4[] tablero = new Pelota4[numPelotasEnTablero];
 		for (contadorPelotas = 0; contadorPelotas<numPelotasEnTablero;) {
 			// Crea pelota nueva
-//			Pelota3 p = new Pelota3();
+//			Pelota4 p = new Pelota4();
 //			p.x = r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2); // Posición aleatoria de centro en 5 filas
 //			p.y = r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2);  // Posición aleatoria de centro en 5 columnas
 //			p.radio = r.nextInt(21) + 50; // Radio aleatorio entre 50 y 70
 //			p.color = COLORES_POSIBLES[ r.nextInt( COLORES_POSIBLES.length ) ];
-			Pelota3 p = new Pelota3();
-			p.radio = r.nextInt(21) + 50; // Radio aleatorio entre 50 y 70
-			p.x = r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2); // Posición aleatoria de centro en 5 filas
-			p.y = r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2);  // Posición aleatoria de centro en 5 columnas
-			p.color = COLORES_POSIBLES[ r.nextInt( COLORES_POSIBLES.length ) ];
+			Pelota4 p = new Pelota4(
+				r.nextInt(21) + 50, // Radio aleatorio entre 50 y 70
+				r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2), // Posición aleatoria de centro en 5 filas
+				r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2),  // Posición aleatoria de centro en 5 columnas
+				COLORES_POSIBLES[ r.nextInt( COLORES_POSIBLES.length ) ]
+			);
 			boolean existeYa = yaExistePelota( tablero, p, contadorPelotas );
 			if (existeYa) { // Esto va a ocurrir un número indeterminado de veces
 				System.out.println( "Pelota repetida" );
@@ -55,12 +56,12 @@ public class JuegoTableroPelotas {
 	}
 	
 	// Mueve las pelotas en pantalla
-	private static void moverPelotas( VentanaGrafica v, Pelota3[] tablero ) {
+	private static void moverPelotas( VentanaGrafica v, Pelota4[] tablero ) {
 		// v.setDibujadoInmediato( false );  // Notar la mejoría de "vibración" si se hace esto y (2)
 		while (!v.estaCerrada()) {
 			Point puls = v.getRatonPulsado();
 			if (puls!=null) {
-				Pelota3 pelotaPulsada = hayPelotaPulsadaEn( puls, tablero );
+				Pelota4 pelotaPulsada = hayPelotaPulsadaEn( puls, tablero );
 				if (pelotaPulsada!=null) {
 					double coordInicialX = pelotaPulsada.x;
 					double coordInicialY = pelotaPulsada.y;
@@ -84,16 +85,16 @@ public class JuegoTableroPelotas {
 		}
 	}
 	
-	private static void repintarTodas( VentanaGrafica v, Pelota3[] tablero ) {
+	private static void repintarTodas( VentanaGrafica v, Pelota4[] tablero ) {
 		for (int i=0; i<tablero.length; i++) {
 			tablero[i].dibuja( v );
 		}
 	}
 	
-	private static Pelota3 hayPelotaPulsadaEn( Point punto, Pelota3[] tablero ) {
-		Pelota3 pelotaPulsada = null;
+	private static Pelota4 hayPelotaPulsadaEn( Point punto, Pelota4[] tablero ) {
+		Pelota4 pelotaPulsada = null;
 		double distanciaMinima = Double.MAX_VALUE;
-		for (Pelota3 p : tablero) {
+		for (Pelota4 p : tablero) {
 			double dist = Math.sqrt( Math.pow( p.x-punto.x, 2) + Math.pow( p.y-punto.y, 2) );
 			if (dist <= p.radio && dist < distanciaMinima) {   // Pulsación dentro de la pelota
 				pelotaPulsada = p;
@@ -103,7 +104,7 @@ public class JuegoTableroPelotas {
 		return pelotaPulsada;
 	}
 	
-	private static void recolocar( VentanaGrafica v, Pelota3 pelota, Pelota3[] tablero, double xDonde, double yDonde ) {
+	private static void recolocar( VentanaGrafica v, Pelota4 pelota, Pelota4[] tablero, double xDonde, double yDonde ) {
 		// 1.- Buscar el sitio del tablero del cual está más cerca el centro de nuestra pelota
 		double distMin = Double.MAX_VALUE;
 		int filaMasCerca = -1;
@@ -127,7 +128,7 @@ public class JuegoTableroPelotas {
 		System.out.println( "Pelota llevada a casilla (" + filaMasCerca + "," + colMasCerca + ")" );
 		// 2.- Comprobar si ese sitio está vacío
 		boolean sitioLibre = true;
-		for (Pelota3 p : tablero) {
+		for (Pelota4 p : tablero) {
 			if (p.x==xMasCerca && p.y==yMasCerca) {  // Esta pelota ocupa ese sitio
 				sitioLibre = false;
 				System.out.println( "La pelota " + p + " ya ocupa ese espacio. No se puede mover" );
@@ -155,7 +156,7 @@ public class JuegoTableroPelotas {
 	}
 
 	
-	private static boolean yaExistePelota( Pelota3[] tablero, Pelota3 p, int numPelotas ) {
+	private static boolean yaExistePelota( Pelota4[] tablero, Pelota4 p, int numPelotas ) {
 		for (int i=0; i<numPelotas; i++) {
 			if (p.equals(tablero[i])) return true;
 		}

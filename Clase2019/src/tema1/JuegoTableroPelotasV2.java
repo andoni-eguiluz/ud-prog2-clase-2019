@@ -30,11 +30,13 @@ public class JuegoTableroPelotasV2 {
 		Pelota4[] tablero = new Pelota4[numPelotasEnTablero];
 		for (contadorPelotas = 0; contadorPelotas<numPelotasEnTablero;) {
 			// Crea pelota nueva
-//			Pelota4 p = new Pelota4();
-//			p.x = r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2); // Posición aleatoria de centro en 5 filas
-//			p.y = r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2);  // Posición aleatoria de centro en 5 columnas
-//			p.radio = r.nextInt(21) + 50; // Radio aleatorio entre 50 y 70
-//			p.color = COLORES_POSIBLES[ r.nextInt( COLORES_POSIBLES.length ) ];
+			// Con constructor por defecto sería:
+			//  Pelota4 p = new Pelota4();
+			//	p.x = r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2); // Posición aleatoria de centro en 5 filas
+			//	p.y = r.nextInt(5) * ALTO_CASILLA + (ALTO_CASILLA/2);  // Posición aleatoria de centro en 5 columnas
+			//	p.radio = r.nextInt(21) + 50; // Radio aleatorio entre 50 y 70
+			//	p.color = COLORES_POSIBLES[ r.nextInt( COLORES_POSIBLES.length ) ];
+			// Con constructor con parámetros:
 			Pelota4 p = new Pelota4(
 				r.nextInt(21) + 50, // Radio aleatorio entre 50 y 70
 				r.nextInt(5) * ANCHO_CASILLA + (ANCHO_CASILLA/2), // Posición aleatoria de centro en 5 filas
@@ -63,15 +65,14 @@ public class JuegoTableroPelotasV2 {
 			if (puls!=null) {
 				Pelota4 pelotaPulsada = hayPelotaPulsadaEn( puls, tablero );
 				if (pelotaPulsada!=null) {
-					double coordInicialX = pelotaPulsada.x;
-					double coordInicialY = pelotaPulsada.y;
+					double coordInicialX = pelotaPulsada.getX();
+					double coordInicialY = pelotaPulsada.getY();
 					v.espera(20); // Espera un poquito (si no pasa todo demasiado rápido)
 					// Hacer movimiento hasta que se suelte el ratón
 					Point drag = v.getRatonPulsado();
 					while (drag!=null) {
 						pelotaPulsada.borra( v );
-						pelotaPulsada.x += (drag.x - puls.x);
-						pelotaPulsada.y += (drag.y - puls.y);
+						pelotaPulsada.incXY( drag.x - puls.x, drag.y - puls.y );
 						pelotaPulsada.dibuja( v );
 						repintarTodas(v, tablero);  // Notar la diferencia si no se hace esto (se van borrando las pelotas al pintar otras que pasan por encima)
 						// v.repaint(); // (2)
@@ -95,8 +96,8 @@ public class JuegoTableroPelotasV2 {
 		Pelota4 pelotaPulsada = null;
 		double distanciaMinima = Double.MAX_VALUE;
 		for (Pelota4 p : tablero) {
-			double dist = Math.sqrt( Math.pow( p.x-punto.x, 2) + Math.pow( p.y-punto.y, 2) );
-			if (dist <= p.radio && dist < distanciaMinima) {   // Pulsación dentro de la pelota
+			double dist = Math.sqrt( Math.pow( p.getX()-punto.x, 2) + Math.pow( p.getY()-punto.y, 2) );
+			if (dist <= p.getRadio() && dist < distanciaMinima) {   // Pulsación dentro de la pelota
 				pelotaPulsada = p;
 				distanciaMinima = dist;
 			}
@@ -115,7 +116,7 @@ public class JuegoTableroPelotasV2 {
 			for (int col=0; col<5; col++) {
 				int coordX = ANCHO_CASILLA * col + (ANCHO_CASILLA/2);
 				int coordY = ALTO_CASILLA * fila + (ALTO_CASILLA/2);
-				double dist = Math.sqrt( Math.pow( coordX-pelota.x, 2 ) + Math.pow( coordY-pelota.y, 2 ) );
+				double dist = Math.sqrt( Math.pow( coordX-pelota.getX(), 2 ) + Math.pow( coordY-pelota.getY(), 2 ) );
 				if (dist < distMin) {
 					distMin = dist;
 					filaMasCerca = fila;
@@ -129,7 +130,7 @@ public class JuegoTableroPelotasV2 {
 		// 2.- Comprobar si ese sitio está vacío
 		boolean sitioLibre = true;
 		for (Pelota4 p : tablero) {
-			if (p.x==xMasCerca && p.y==yMasCerca) {  // Esta pelota ocupa ese sitio
+			if (p.getX()==xMasCerca && p.getY()==yMasCerca) {  // Esta pelota ocupa ese sitio
 				sitioLibre = false;
 				System.out.println( "La pelota " + p + " ya ocupa ese espacio. No se puede mover" );
 				break;
@@ -140,16 +141,16 @@ public class JuegoTableroPelotasV2 {
 			xDonde = xMasCerca;
 			yDonde = yMasCerca;
 		}
-		double xInicial = pelota.x;
-		double yInicial = pelota.y;
+		double xInicial = pelota.getX();
+		double yInicial = pelota.getY();
 		// Hacemos el movimiento que dure medio segundo, dibujando 50 veces en medio segundo (un movimiento cada 10 milésimas)
 		for (int fotograma=1; fotograma<=50; fotograma++) {
 			v.espera(10);
 			double progresionX = xInicial + (xDonde - xInicial)/50.0 * fotograma;  // Importante la operativa con doubles porque si no el redondeo a enteros quita mucha precisión 
 			double progresionY = yInicial + (yDonde - yInicial)/50.0 * fotograma;  // Importante la operativa con doubles porque si no el redondeo a enteros quita mucha precisión 
 			pelota.borra( v );
-			pelota.x = Math.round( progresionX );
-			pelota.y = Math.round( progresionY );
+			pelota.setX( Math.round( progresionX ) );
+			pelota.setY( Math.round( progresionY ) );
 			// pelota.dibuja( v );
 			repintarTodas(v, tablero);
 		}

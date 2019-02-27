@@ -5,7 +5,7 @@ import java.awt.Point;
 import tema1.VentanaGrafica;
 
 /** Clase que permite crear y gestionar pelotas y dibujarlas en una ventana gráfica
- * Versión 2 con más y mejores métodos y visibilidad de atributos
+ * Versión 2
  */
 public class Pelota3 {
 	

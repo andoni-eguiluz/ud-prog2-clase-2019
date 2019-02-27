@@ -5,7 +5,7 @@ import java.awt.Point;
 import tema1.VentanaGrafica;
 
 /** Clase que permite crear y gestionar pelotas y dibujarlas en una ventana gráfica
- * Versión 2 con más y mejores métodos y visibilidad de atributos
+ * Versión 3 con más y mejores métodos y visibilidad de atributos
  */
 public class Pelota4 {
 	
@@ -132,7 +132,6 @@ public class Pelota4 {
 //		color = pColor;
 //	}
 	
-	
 	public Pelota4(double radio, double x, double y, char color, boolean bota) {
 		// super();
 		this.radio = radio;
@@ -142,7 +141,51 @@ public class Pelota4 {
 		this.bota = bota;
 	}
 	
+	public double getRadio() {
+		return radio;
+	}
+
+	public void setRadio(double radio) {
+		this.radio = radio;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
 	
+	public void incXY( double incX, double incY ) {
+		x += incX;
+		y += incY;
+	}
+
+	public char getColor() {
+		return color;
+	}
+
+	public void setColor(char color) {
+		this.color = color;
+	}
+
+	public boolean isBota() {
+		return bota;
+	}
+
+	public void setBota(boolean bota) {
+		this.bota = bota;
+	}
+
 	/** Calcula el volumen de la pelota partiendo de su información de radio
 	 * @return	Volumen de la pelota suponiendo una esfera perfecta
 	 */
@@ -157,6 +200,7 @@ public class Pelota4 {
 		Color color = Color.black;
 		if (this.color=='v') color = Color.green;
 		else if (this.color=='a') color = Color.blue;
+		else if (this.color=='r') color = Color.red;
 		v.dibujaCirculo( x, y, radio, 2f, color );
 	}
 	

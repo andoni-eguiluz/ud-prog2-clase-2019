@@ -145,6 +145,9 @@ public class Pelota4 {
 		return radio;
 	}
 
+	/** Cambia el radio de la pelota. Debe ser mayor que cero
+	 * @param radio	Nuevo radio de la pelota
+	 */
 	public void setRadio(double radio) {
 		this.radio = radio;
 	}
@@ -165,6 +168,10 @@ public class Pelota4 {
 		this.y = y;
 	}
 	
+	/** Incrementa o decrementa las coordenadas de la pelota
+	 * @param incX	Incremento de la coordenada X (negativo si es decremento)
+	 * @param incY	Incremento de la coordenada Y (idem)
+	 */
 	public void incXY( double incX, double incY ) {
 		x += incX;
 		y += incY;

@@ -2,7 +2,7 @@ package tema1.ejerciciosResueltos;
 
 import tema1.Pianillo;
 
-public class FrereJaques {
+public class FrereJacques {
 
 	public static void main(String[] args) {
 		// Prueba 1: Una minicanción creada solo con notas:
@@ -22,7 +22,7 @@ public class FrereJaques {
 
 		// Prueba 2: Una canción creada con un objeto contenedor Cancion
 		// Lo que queremos hacer con la clase canción:
-		Cancion fj = new Cancion();
+		Cancion fj = new Cancion( "Frere Jacques" );
 		// Posibilidad 1: fj.addNotas( "do re mi do" ); // Duración = 1/4 Escala = 4
 		// Posibilidad 2: fj.addNotas( "1/4do4 1/4re4 1/4mi4 1/4do4" );
 		// Posibilidad 3: fj.addNotas( "do re mi do", "1/4 1/4 1/4 1/4", "4 4 4 4");

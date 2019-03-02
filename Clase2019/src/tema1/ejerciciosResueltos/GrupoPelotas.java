@@ -9,7 +9,7 @@ public class GrupoPelotas {
 	private Pelota[] grupo;
 	private int numPelotas;
 	
-	/** Crea un grupo de pelotas
+	/** Crea un grupo de pelotas vacío
 	 * @param numMax	Número máximo de pelotas del grupo (debe ser positivo)
 	 */
 	public GrupoPelotas( int numMax ) {
@@ -69,6 +69,11 @@ public class GrupoPelotas {
 		return grupo[num];
 	}
 
+	/** Comprueba si alguna de las pelotas corresponde a una coordenada dada de la pantalla
+	 * @param punto	Coordenada de pantalla a comprobar
+	 * @return	Pelota que tiene esta coordenada dentro. Si hay varias, se devuelve aquella que tenga 
+	 * más cerca su centro del punto pulsado. Si no hay ninguna, se devuelve null.
+	 */
 	public Pelota hayPelotaPulsadaEn( Point punto ) {
 		Pelota pelotaPulsada = null;
 		double distanciaMinima = Double.MAX_VALUE;
@@ -83,11 +88,20 @@ public class GrupoPelotas {
 		return pelotaPulsada;
 	}
 	
+	/** Informa si una pelota ya existe en el grupo
+	 * @param p	Pelota a comprobar
+	 * @return	true si ya hay una pelota en esas mismas coordenadas, false en caso contrario
+	 */
 	public boolean yaExistePelota( Pelota p ) {
 		for (int i=0; i<numPelotas; i++) {
 			if (p.equals(grupo[i])) return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return grupo.toString();  // Esto no funciona bien con arrays, pero sí con ArrayList
 	}
 	
 }

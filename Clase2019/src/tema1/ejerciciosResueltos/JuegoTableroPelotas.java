@@ -21,6 +21,7 @@ public class JuegoTableroPelotas {
 	private static final int RADIO_MINIMO = 20;    // Radio mínimo de cada pieza
 	private static final Character[] COLORES_POSIBLES = { 'a', 'v', 'r' };  // Colores posibles de cada pelota
 	private static final int PUNTOS_POR_MOVIMIENTO = 25; // Puntos que se quitan por cada movimiento
+	private static final int PUNTOS_BONUS = 500; // Puntos de bonus si se vacía el tablero completo
 
 	private static VentanaGrafica v;               // Ventana de juego
 	private static GrupoPelotas tablero;           // Tablero (grupo de pelotas) de juego
@@ -52,6 +53,10 @@ public class JuegoTableroPelotas {
 			if (!sigueElJuego) {
 				v.setMensaje( "Oooohh... derrota!!! Vuelve pronto! Puntuación final: " + puntuacion );
 				v.espera( 5000 );
+			} else {
+				if (tablero.size()==0) {  // Si se dejan 0 pelotas, bonus de 500 puntos
+					puntuacion += PUNTOS_BONUS;
+				}
 			}
 			v.acaba();  // Cierra la ventana de ese nivel
 			nivel++;

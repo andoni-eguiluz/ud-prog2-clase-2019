@@ -20,6 +20,8 @@ public class Pelota {
 		// Creamos una pelota en (300,300) con radio 200
 		Pelota p1 = new Pelota( 200, 300, 300, 'a' );
 		p1.bota = true;
+		Pelota p2 = p1; // Son la misma pelota aunque no lo parezcan
+		p2.radio = 50; // Al cambiar el radio de p2 cambia también p1 (aliasing)
 		// Creamos una ventana gráfica para dibujarla
 		VentanaGrafica v = new VentanaGrafica( 1000, 700, "Ventana gráfica de pelotas" );
 		// La dibujamos y la borramos
@@ -113,11 +115,18 @@ public class Pelota {
 	private char color;    // Color de la pelota ('a' = azul, 'v' = verde)
 	private boolean bota;  // Información de si la pelota bota o no
 
-	// public Pelota4() {}
+	/** Crea una nueva pelota azul, en las coordenadas 0,0, de radio 0, no bota
+	 */
 	public Pelota() {
 		color = 'a';
 	}
 	
+	/** Crea una nueva pelota que no bota
+	 * @param radio	Píxels de radio de la pelota (debe ser mayor que 0)
+	 * @param x	Coordenada x del centro de la pelota (en píxels)
+	 * @param y	Coordenada y del centro de la pelota (en píxels)
+	 * @param color	Color de la pelota ('a' azul, 'v' verde, 'r' rojo)
+	 */
 	public Pelota( double radio, double x, double y, char color ) {
 		this.radio = radio;
 		this.x = x;
@@ -125,13 +134,13 @@ public class Pelota {
 		this.color = color;
 	}
 	
-//	public Pelota4( double pRadio, double pX, double pY, char pColor ) {
-//		radio = pRadio;  // this.radio = pRadio;
-//		x = pX;
-//		y = pY;
-//		color = pColor;
-//	}
-	
+	/** Crea una nueva pelota
+	 * @param radio	Píxels de radio de la pelota (debe ser mayor que 0)
+	 * @param x	Coordenada x del centro de la pelota (en píxels)
+	 * @param y	Coordenada y del centro de la pelota (en píxels)
+	 * @param color	Color de la pelota ('a' azul, 'v' verde, 'r' rojo)
+	 * @param bota	true si la pelota bota, false si no
+	 */
 	public Pelota(double radio, double x, double y, char color, boolean bota) {
 		// super();
 		this.radio = radio;
@@ -141,29 +150,46 @@ public class Pelota {
 		this.bota = bota;
 	}
 	
+	
+	
+	/** Devuelve el radio de la pelota
+	 * @return	Radio en píxels
+	 */
 	public double getRadio() {
 		return radio;
 	}
 
 	/** Cambia el radio de la pelota. Debe ser mayor que cero
-	 * @param radio	Nuevo radio de la pelota
+	 * @param radio	Nuevo radio de la pelota (debe ser mayor que cero)
 	 */
 	public void setRadio(double radio) {
 		this.radio = radio;
 	}
 
+	/** Devuelve la coordenada x del centro de la pelota
+	 * @return	Coordenada x en píxels (0=izquierda de la ventana)
+	 */
 	public double getX() {
 		return x;
 	}
 
+	/** Cambia la coordenada del centro de la pelota
+	 * @param x	Nueva coordenada x en píxels (0=izquierda de la ventana)
+	 */
 	public void setX(double x) {
 		this.x = x;
 	}
 
+	/** Devuelve la coordenada y del centro de la pelota
+	 * @return	Coordenada y en píxels (0=arriba de la ventana)
+	 */
 	public double getY() {
 		return y;
 	}
 
+	/** Cambia la coordenada del centro de la pelota
+	 * @param y	Nueva coordenada y en píxels (0=arriba de la ventana)
+	 */
 	public void setY(double y) {
 		this.y = y;
 	}
@@ -177,18 +203,30 @@ public class Pelota {
 		y += incY;
 	}
 
+	/** Devuelve el color de la pelota
+	 * @return	Color en forma de char ('v' = verde, 'a' = azul, 'r' = rojo)
+	 */
 	public char getColor() {
 		return color;
 	}
 
+	/** Modifica el color de la pelota
+	 * @param color	Color en forma de char ('v' = verde, 'a' = azul, 'r' = rojo)
+	 */
 	public void setColor(char color) {
 		this.color = color;
 	}
 
+	/** Informa si la pelota bota o no
+	 * @return	true si la pelota bota, false en caso contrario
+	 */
 	public boolean isBota() {
 		return bota;
 	}
 
+	/** Modifica el bote de la pelota
+	 * @param bota	true si la pelota debe botar, false en caso contrario
+	 */
 	public void setBota(boolean bota) {
 		this.bota = bota;
 	}
@@ -217,19 +255,29 @@ public class Pelota {
 	public void borra( VentanaGrafica v ) {
 		v.borraCirculo( x, y, radio, 2f );
 	}
-	
-	// Faltan gets y sets (para exponer y poder modificar públicamente los atributos)
 
+	@Override
 	public String toString() {
 		return x + "," + y;
 	}
 	
+	/** Visualiza en consola la pelota, con su centro y radio, en el formato "x,y - Radio r\n"
+	 */
 	public void visualiza() {
 		System.out.println( this.x + "," + this.y + " - Radio " + this.radio  );
 	}
 	
+	
+	// Los comentarios de métodos override no son imprescindibles (ya veremos por qué con herencia) pero
+	// sí se pueden indicar si el método aporta algo diferencial como aquí
+	
+	/** Comprueba si la pelota es igual a otro objeto dado. Se entiende que dos pelotas son iguales
+	 * cuando las coordenadas de sus centros (redondeadas a enteros) son iguales
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
+		// TODO a mejorar cuando veamos polimorfismo
 		Pelota p2 = (Pelota) obj;  // Cast de obj a Pelota2 (lo entenderemos mejor al ver herencia)
 		return Math.round(p2.x)==Math.round(x) && Math.round(p2.y)==Math.round(y); // Devuelve true o false dependiendo de las coordenadas de las pelotas this y p2
 	}

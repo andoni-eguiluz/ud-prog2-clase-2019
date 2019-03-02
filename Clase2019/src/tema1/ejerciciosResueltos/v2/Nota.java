@@ -136,5 +136,12 @@ public class Nota {
 	public String toString() {
 		return duracionNum + "/" + duracionDen + nombreNota + octava;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO implementación a mejorar cuando entendamos el casting sobre herencia
+		Nota n2 = (Nota) obj;
+		return nombreNota.equals(n2.nombreNota) && octava==n2.octava && duracionDen==n2.duracionDen && duracionNum==n2.duracionNum; 
+	}
 	
 }

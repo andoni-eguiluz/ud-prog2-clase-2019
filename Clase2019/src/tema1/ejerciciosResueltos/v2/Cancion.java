@@ -107,4 +107,11 @@ public class Cancion {
 		return mens + "}";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO implementación a mejorar cuando entendamos el casting sobre herencia
+		Cancion c2 = (Cancion) obj;
+		return nombre.equals(c2.nombre); // Se podrían comprobar también que las notas son iguales, con arraylist es muy fácil: equals().  (con array: NO) 
+	}
+	
 }

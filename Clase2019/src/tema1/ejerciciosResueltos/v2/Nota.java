@@ -5,7 +5,7 @@ import java.util.Arrays;
 import tema1.Pianillo;
 
 /** Clase Nota que permite crear objetos que representan a notas musicales reproducibles en una partitura,
- * con nombre musical de la nota, octava y duración
+ * con nombre musical de la nota, octava y duración.
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class Nota {

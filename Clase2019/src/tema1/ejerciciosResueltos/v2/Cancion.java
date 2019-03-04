@@ -1,24 +1,29 @@
 package tema1.ejerciciosResueltos.v2;
 
+import java.util.*;
+
 /** Clase que modela una canción basada en notas musicales y permite crear instancias con una canción, 
  * partiendo de sus notas de partitura y el tempo. Permite además reproducir el audio de la canción con la utilidad {@link tema1.Pianillo}
+ * Cambiado el array de notas por un ArrayList de notas
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class Cancion {
 	
 	private String nombre;         // Nombre de la canción
 	private int numOctavaDefecto;  // octava por defecto de la canción (0-8)
-	private Nota[] notas;	       // Vector de notas de la canción
-	private int numNotas;	       // Número de notas en ese vector (0 al principio)
-	
+//	private Nota[] notas;	       // Vector de notas de la canción
+//	private int numNotas;	       // Número de notas en ese vector (0 al principio)
+	private ArrayList<Nota> notas;
+	 
 	/** Crea una nueva canción, vacía, con tempo 1.0 (segundos / tempo), con octava 4 por defecto
 	 * @param nombre	Nombre de esa canción
 	 */
 	public Cancion( String nombre ) {
 		this.nombre = nombre;
 		this.numOctavaDefecto = 4;
-		numNotas = 0;
-		notas = new Nota[1000];  // Reservamos espacio para 1000 notas
+		// numNotas = 0;
+		// notas = new Nota[1000];  // Reservamos espacio para 1000 notas
+		notas = new ArrayList<Nota>();
 	}
 	
 	/** Modifica la octava por defecto de la composición (se utiliza al añadir notas)
@@ -74,8 +79,9 @@ public class Cancion {
 	 * @param nota	Nota a añadir
 	 */
 	public void addNota( Nota nota ) {
-		notas[numNotas] = nota;
-		numNotas++;
+		notas.add( nota );
+		// notas[numNotas] = nota;
+		// numNotas++;
 	}
 	
 	/** Reproduce el audio de la canción, con la utilidad {@link tema1.Pianillo}
@@ -85,8 +91,10 @@ public class Cancion {
 	 */
 	public void play( int canal, double tempo, double volumen ) {
 		Nota.setTempo( tempo );
-		for (int i=0; i<numNotas; i++) {
-			Nota nota = notas[i];
+		// for (int i=0; i<numNotas; i++) {
+		for (int i=0; i<notas.size(); i++) {
+			// Nota nota = notas[i];
+			Nota nota = notas.get(i);
 			nota.play( canal, volumen );
 		}
 	}
@@ -95,15 +103,21 @@ public class Cancion {
 	 * @param semitonos	Número de semitonos de cambio (negativo hacia valores más graves, positivo hacia agudos)
 	 */
 	public void transponer( int semitonos ) {
-		for (int i=0; i<numNotas; i++) {
-			notas[i].transponer( semitonos );
+		// for (int i=0; i<numNotas; i++) {
+		// 	notas[i].transponer( semitonos );
+		// }
+		for (int i=0; i<notas.size(); i++) {
+			notas.get(i).transponer( semitonos );
 		}
 	}
 	
 	@Override
 	public String toString() {
 		String mens = nombre + ". Notas: { ";
-		for (int i=0; i<numNotas; i++) mens += notas[i] + " ";
+		// for (int i=0; i<numNotas; i++) mens += notas[i] + " ";
+		for (int i=0; i<notas.size(); i++) {
+			mens += notas.get(i) + " ";
+		}
 		return mens + "}";
 	}
 	

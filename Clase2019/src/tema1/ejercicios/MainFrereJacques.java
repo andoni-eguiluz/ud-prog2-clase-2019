@@ -24,7 +24,7 @@ public class MainFrereJacques {
 		boolean conAcompanyamiento = true;
 		// Crear canción
 		Cancion cancion = new Cancion( "Frere Jacques" );
-		cancion.addPartitura( "do re mi do do re mi do mi fa 1/2sol mi fa 1/2sol " +
+		cancion.addPartitura( "1/4do4 1/4re4 mi do do re mi do mi fa 1/2sol mi fa 1/2sol " +
 				"1/8sol 1/8la 1/8sol 1/8fa mi do 1/8sol 1/8la 1/8sol 1/8fa mi do re sol3 1/2do re sol3 1/2do", 1, 4 );
 		System.out.println( "Canción: " + cancion );
 
@@ -43,8 +43,8 @@ public class MainFrereJacques {
 		
 		// Lanzar canción (y acompañamiento si existe al mismo tiempo)
 		cancion.play( 0, TEMPO, VOL_MELODIA );  // Lanza canción por el canal 0
-		if (conAcompanyamiento)
-			acomp.play( new int[] { 1, 2, 3, 4 } );  // Y acompañamiento por los canales 1-4
+		//if (conAcompanyamiento)
+		//	acomp.play( new int[] { 1, 2, 3, 4 } );  // Y acompañamiento por los canales 1-4
 		
 		Pianillo.closeCuandoSeAcabe();
 	}

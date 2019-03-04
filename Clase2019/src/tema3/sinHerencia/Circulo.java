@@ -166,6 +166,26 @@ public class Circulo {
 		return x-radio<=0 || x+radio>=v.getAnchura();
 	}
 
+	/** Comprueba si el círculo se sale por la vertical de la ventana
+	 * @param v	Ventana de comprobación
+	 * @return	+1 si se está saliendo por arriba, -1 si se sale por abajo, 0 si no se sale
+	 */
+	public int salidaVertical( VentanaGrafica v ) {
+		if (y-radio<=0) return +1;
+		else if (y+radio>=v.getAltura()) return -1;
+		else return 0;
+	}
+
+	/** Comprueba si el círculo se sale por la horizontal de la ventana
+	 * @param v	Ventana de comprobación
+	 * @return	+1 si se está saliendo por izquierda, -1 si se sale por derecha, 0 si no se sale
+	 */
+	public int salidaHorizontal( VentanaGrafica v ) {
+		if (x-radio<=0) return +1;
+		else if (x+radio>=v.getAnchura()) return -1;
+		else return 0;
+	}
+
 	@Override
 	public String toString() {
 		return x + "," + y + " (" + radio + ")";

@@ -242,11 +242,11 @@ public class Pelota {
 	 * @param v	Ventana en la que dibujar la pelota
 	 */
 	public void dibuja( VentanaGrafica v ) {
-		Color color = Color.black;
-		if (this.color=='v') color = Color.green;
-		else if (this.color=='a') color = Color.blue;
-		else if (this.color=='r') color = Color.red;
-		v.dibujaCirculo( x, y, radio, 2f, color );
+		Color colorEnVentana = Color.black;
+		if (color=='v') colorEnVentana = Color.green;
+		else if (color=='a') colorEnVentana = Color.blue;
+		else if (color=='r') colorEnVentana = Color.red;
+		v.dibujaCirculo( x, y, radio, 2f, colorEnVentana );
 	}
 	
 	/** Borra la pelota en una ventana

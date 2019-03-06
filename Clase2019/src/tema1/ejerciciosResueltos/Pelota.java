@@ -1,6 +1,7 @@
 package tema1.ejerciciosResueltos;
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Random;
 
 import tema1.VentanaGrafica;
 
@@ -20,7 +21,7 @@ public class Pelota {
 		// Creamos una pelota en (300,300) con radio 200
 		Pelota p1 = new Pelota( 200, 300, 300, 'a' );
 		p1.bota = true;
-		Pelota p2 = p1; // Son la misma pelota aunque no lo parezcan
+		Pelota p2 = new Pelota( p1 ); // Son la misma pelota aunque no lo parezcan
 		p2.radio = 50; // Al cambiar el radio de p2 cambia también p1 (aliasing)
 		// Creamos una ventana gráfica para dibujarla
 		VentanaGrafica v = new VentanaGrafica( 1000, 700, "Ventana gráfica de pelotas" );
@@ -104,6 +105,24 @@ public class Pelota {
 		p.dibuja( v ); // La deja dibujada al final
 	}
 	
+	
+	/** Constructor indirecto que devuelve una nueva pelota completamente aleatoria
+	 * con los valores radio entre 0 y 100; x,y entre -100 y 100; color uno de 'r','v','a' y bota true o false
+	 * @return	Nueva pelota creada con valores aleatorios
+	 */
+	public static Pelota creaPelotaAleatoria() {
+		Random random = new Random();  // Esta variable se podría crear solo una vez y ser un atributo estático
+		char[] colores = { 'a', 'v', 'r' };  // Igual que esta
+		Pelota pelota = new Pelota();
+		pelota.radio = random.nextDouble() * 50.0 + 50.0;
+		pelota.x = random.nextDouble() * 100;
+		pelota.y = random.nextDouble() * 100;
+		pelota.color = colores[ random.nextInt(3) ]; // 33% cada opción 0,1,2
+		pelota.bota = random.nextInt(2)<1;  // 50% 0, 50% 1
+		return pelota;
+	}
+	
+	
 
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -128,10 +147,11 @@ public class Pelota {
 	 * @param color	Color de la pelota ('a' azul, 'v' verde, 'r' rojo)
 	 */
 	public Pelota( double radio, double x, double y, char color ) {
-		this.radio = radio;
-		this.x = x;
-		this.y = y;
-		this.color = color;
+//		this.radio = radio;
+//		this.x = x;
+//		this.y = y;
+//		this.color = color;
+		this( radio, x, y, color, false );
 	}
 	
 	/** Crea una nueva pelota
@@ -149,9 +169,30 @@ public class Pelota {
 		this.color = color;
 		this.bota = bota;
 	}
+
+	/** Crea una nueva pelota partiendo de otra, copiando todos sus datos
+	 * @param pelota	Pelota origen
+	 */
+	public Pelota( Pelota pelota ) {
+		// Opción 1
+//		this.radio = pelota.radio;
+//		this.x = pelota.x;
+//		this.y = pelota.y;
+//		this.color = pelota.color;
+//		this.bota = pelota.bota;
+		// Opción 2
+		this( pelota.radio, pelota.x, pelota.y, pelota.color, pelota.bota );
+	}
 	
-	
-	
+	/** Crea y devuelve una nueva pelota partiendo de la pelota actual
+	 * @return	Nueva pelota, con los mismos datos que la pelota actual
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Pelota clone() throws CloneNotSupportedException {
+		return new Pelota( this );
+	}
+		
 	/** Devuelve el radio de la pelota
 	 * @return	Radio en píxels
 	 */
@@ -242,9 +283,8 @@ public class Pelota {
 	 * @param v	Ventana en la que dibujar la pelota
 	 */
 	public void dibuja( VentanaGrafica v ) {
-		Color colorEnVentana = Color.black;
+		Color colorEnVentana = Color.blue;  // por defecto azul
 		if (color=='v') colorEnVentana = Color.green;
-		else if (color=='a') colorEnVentana = Color.blue;
 		else if (color=='r') colorEnVentana = Color.red;
 		v.dibujaCirculo( x, y, radio, 2f, colorEnVentana );
 	}

@@ -45,7 +45,11 @@ public class Fisica {
 		return new Polar( Math.sqrt( x*x + y*y ), Math.atan2( y, x ) );
 	}
 	
-	public static class Polar {  // Clase para trabajo con vectores en notación polar en lugar de cartesiana
+	/** Clase interna para trabajo con vectores en notación polar en lugar de cartesiana
+	 * Permite trabajar con puntos/vectores en modo módulo/argumento
+	 * @author andoni.eguiluz @ ingenieria.deusto.es
+	 */
+	public static class Polar {
 		private double modulo;
 		private double argumento;
 		/** Crea un vector en formato polar

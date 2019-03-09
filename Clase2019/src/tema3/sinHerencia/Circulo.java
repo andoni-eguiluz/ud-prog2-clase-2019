@@ -7,7 +7,7 @@ import tema3.VentanaGrafica;
  */
 public class Circulo {
 	
-	private static Color COLOR_POR_DEFECTO = Color.blue;  // Color por defecto de los círculos nuevos
+	private static final Color COLOR_POR_DEFECTO = Color.blue;  // Color por defecto de los círculos nuevos
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -137,9 +137,9 @@ public class Circulo {
 	 * @param v	Ventana en la que dibujar el círculo
 	 */
 	public void dibuja( VentanaGrafica v ) {
-		v.dibujaImagen( "/img/balon.png", x, y, 0.5, rot, 1.0f );
+		v.dibujaImagen( "/img/balon.png", x, y, 2*radio/50, rot, 1.0f );
 		rot += 0.05;
-		// v.dibujaCirculo( x, y, radio, 2f, color );
+		v.dibujaCirculo( x, y, radio, 2f, color );
 	}
 	
 	/** Mueve el círculo cambiando su posición según su velocidad lineal y el tiempo

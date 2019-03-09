@@ -130,7 +130,7 @@ public class VentanaGrafica {
 	/** Cierra la ventana (también ocurre cuando se pulsa el icono de cierre)
 	 */
 	public void acaba() {
-		ventana.dispose();
+		if (!cerrada) ventana.dispose();
 		cerrada = true;
 	}
 	

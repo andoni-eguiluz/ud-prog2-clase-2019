@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.Random;
 import tema1.VentanaGrafica;
 
-/** Planteamiento de hipotético juego de "fichas" redondas en un tablero de 5x5<br>
+/** Planteamiento de hipotético juego de "fichas" redondas en un tablero de 4x4, 5x5, 6x6...<br>
  * Solución de ejercicio 1.9
  * Con unas reglas de juego sencillas (quita las "líneas" de fichas del mismo color, de 3
  * o más en fila o columna). El juego consiste en quitar el mayor número posible de fichas,
  * en el menor número posible de movimientos. Cuantas más fichas grandes se quiten, mejor
- * Si en algún nivel quedan más de 2 pelotas de algún color, el juego se pierde
+ * Si en algún nivel quedan <n-2> pelotas de algún color, el juego se pierde
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class JuegoTableroPelotas {

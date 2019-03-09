@@ -1,64 +1,75 @@
 package tema1.ejerciciosResueltos;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /** Clase que permite gestionar un grupo de pelotas
+ * Modificada para usar arraylist en lugar de array internamente
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class GrupoPelotas {
-	private Pelota[] grupo;
-	private int numPelotas;
+	// private Pelota[] grupo;
+	// private int numPelotas;
+	private ArrayList<Pelota> grupo;
+	private int numMaxPelotas;
 	
 	/** Crea un grupo de pelotas vacío
 	 * @param numMax	Número máximo de pelotas del grupo (debe ser positivo)
 	 */
 	public GrupoPelotas( int numMax ) {
-		grupo = new Pelota[numMax];
-		numPelotas = 0;
+		// grupo = new Pelota[numMax];
+		// numPelotas = 0;
+		grupo = new ArrayList<>();
+		numMaxPelotas = numMax;
 	}
 	
 	/** Devuelve el número de pelotas actualmente en el grupo
 	 * @return	Número de pelotas en el grupo
 	 */
 	public int size() {
-		return numPelotas;
+		// return numPelotas;
+		return grupo.size();
 	}
 	
 	/** Devuelve el número máximo de pelotas que caben en el grupo
 	 * @return	Número máximo
 	 */
 	public int tamMaximo() {
-		return grupo.length;
+		// return grupo.length;
+		return numMaxPelotas;
 	}
 	
 	/** Añade una pelota al grupo
 	 * @return	true si se añade correctamente, false si no cabe (no se añade)
 	 */
 	public boolean addPelota( Pelota pelota ) {
-		if (numPelotas==grupo.length) {
-			return false;
-		} else {
-			grupo[numPelotas] = pelota;
-			numPelotas++;
-			return true;
-		}
+		// if (numPelotas==grupo.length) {
+		// 	return false;
+		// } else {
+		// 	grupo[numPelotas] = pelota;
+		// 	numPelotas++;
+		// 	return true;
+		// }
+		grupo.add( pelota );
+		return true;
 	}
 	
 	/** Quita una pelota del grupo
 	 * @param pelota	Pelota a quitar. Si está en el grupo, se elimina (EXACTAMENTE ese objeto, no otra pelota con las mismas coordenadas)
 	 */
 	public void removePelota( Pelota pelota ) {
-		for (int i=0; i<numPelotas; i++) {
-			Pelota p = grupo[i];
-			if (p==pelota) {
-				// Movemos todas las pelotas siguientes una posición hacia la izquierda
-				for (int j=i+1; j<numPelotas; j++) {
-					grupo[j-1] = grupo[j];
-				}
-				numPelotas--;  // Una pelota menos
-				return;
-			}
-		}
+		// for (int i=0; i<numPelotas; i++) {
+		//	 Pelota p = grupo[i];
+		//	 if (p==pelota) {
+		//		 // Movemos todas las pelotas siguientes una posición hacia la izquierda
+		//		 for (int j=i+1; j<numPelotas; j++) {
+		//		 	grupo[j-1] = grupo[j];
+		//		 }
+		//		 numPelotas--;  // Una pelota menos
+		//		 return;
+		//	 }
+		// }
+		grupo.remove( pelota );
 	}
 	
 	/** Devuelve una pelota del grupo
@@ -66,7 +77,8 @@ public class GrupoPelotas {
 	 * @return	Pelota en esa posición del grupo
 	 */
 	public Pelota getPelota( int num ) {
-		return grupo[num];
+		// return grupo[num];
+		return grupo.get( num );
 	}
 
 	/** Comprueba si alguna de las pelotas corresponde a una coordenada dada de la pantalla
@@ -77,8 +89,9 @@ public class GrupoPelotas {
 	public Pelota hayPelotaPulsadaEn( Point punto ) {
 		Pelota pelotaPulsada = null;
 		double distanciaMinima = Double.MAX_VALUE;
-		for (int i=0; i<numPelotas; i++) {
-			Pelota p = grupo[i];
+		// for (int i=0; i<numPelotas; i++) {
+		//	Pelota p = grupo[i];
+		for (Pelota p : grupo) { // For each en lugar de for con índice
 			double dist = Math.sqrt( Math.pow( p.getX()-punto.x, 2) + Math.pow( p.getY()-punto.y, 2) );
 			if (dist <= p.getRadio() && dist < distanciaMinima) {   // Pulsación dentro de la pelota
 				pelotaPulsada = p;
@@ -93,10 +106,11 @@ public class GrupoPelotas {
 	 * @return	true si ya hay una pelota en esas mismas coordenadas, false en caso contrario
 	 */
 	public boolean yaExistePelota( Pelota p ) {
-		for (int i=0; i<numPelotas; i++) {
-			if (p.equals(grupo[i])) return true;
-		}
-		return false;
+		// for (int i=0; i<numPelotas; i++) {
+		// 	if (p.equals(grupo[i])) return true;
+		// }
+		// return false;
+		return grupo.contains( p );
 	}
 	
 	@Override

@@ -2,16 +2,13 @@ package tema3.sinHerencia;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
-
-import com.sun.glass.events.KeyEvent;
-
 import tema3.VentanaGrafica;
 import tema3.sinHerencia.Fisica.Polar;
 
-/** Clase de pruebas de cómo resolver las colisiones y los movimientos de rebote
+/** Clase de pruebas de problemas de colisiones y los movimientos de rebote
  * en juegos del estilo del Pong  (círculos rebotando con rectángulos)
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
@@ -20,9 +17,6 @@ public class PruebaFisicasPong {
 	private static final long MSGS_POR_FRAME = 20; // 20 msgs por frame = 50 frames por segundo aprox
 	private static double VEL_JUEGO = 1.0;         // 1.0 = tiempo real. Cuando mayor, más rápido pasa el tiempo y viceversa 
 	private static final double RADIO_BOLA = 15;   // Radio de la pelota
-	private static final double VEL_MIN = 300;     // Velocidad inicial mínima (300 píxels por segundo)
-	private static final double VEL_RANGO = 200;   // Rango de velocidad mínima (de VEL_MIN a VEL_MIN + 200 píxels por segundo)
-	private static final double VEL_PALA = 500;    // Velocidad de desplazamiento de las palas (pixels/sg)
 	
 	public static void main(String[] args) {
 		PruebaFisicasPong juego = new PruebaFisicasPong();
@@ -37,6 +31,7 @@ public class PruebaFisicasPong {
 		juego.prueba( 7, "Rebote esquina no realista (solo lateral/vertical)" );
 		juego.prueba( 8, "Rebote esquina realista" );
 		juego.prueba( 9, "Varios rebotes esquina" );
+		juego.prueba( 10, "Choque rápido incrustado - necesitaría cálculo impacto inicial" );  // A veces pasa que al incrustarse la bola a la vez choca de varias maneras y entonces es imposible calcular bien, habría que "volver atrás" el movimiento para encontrar el punto de choque real
 		juego.vent.acaba();
 	}
 	
@@ -120,6 +115,12 @@ public class PruebaFisicasPong {
 				bolas.add( bola3 );
 				break;
 			}
+			case 10: { // Choque rápido incrustado - necesitaría cálculo impacto inicial
+				bola.setVX( -4200 );
+				bola.setVY( 2100 );
+				pala1.setY( 460 );
+				break;
+			}
 		}
 		mover();
 	}
@@ -143,15 +144,19 @@ public class PruebaFisicasPong {
 				bola.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO ); }
 			// Movimiento de la pala de prueba
 			pala1.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO );
+			// Dibujado (1)
+			vent.borra();
+			dibujaBordes();
+			pala1.dibuja( vent );
+			for (Circulo bola : bolas) {  // Dibujado de bolas previas al movimiento
+				vent.dibujaCirculo( bola.getX(), bola.getY(), bola.getRadio(), 1f, Color.orange );
+			}
 			// Control de salida de pantalla (la prueba se acaba cuando la bola llega a un borde) 
 			for (Circulo bola : bolas) {
 				if (bola.seSaleEnHorizontal( vent ) || bola.seSaleEnVertical( vent )) {
 					finPrueba = true;
 				}
 			}
-			// Preparación de dibujado
-			vent.borra();
-			dibujaBordes();
 			// Choque bola y palas
 			for (Circulo bola : bolas) {
 				if (choqueLateralPala(bola, pala1)) {  // Solo hay pala1 en esta prueba
@@ -164,10 +169,9 @@ public class PruebaFisicasPong {
 				}
 				reajustaBola( bola );
 			}
-			// Dibujado
+			// Dibujado (2)
 			vent.dibujaTexto( 50, 700, textoPrueba, font, Color.black );
 			vent.dibujaTexto( 50, 750, "<ctrl> mueve, <click> avanza frame, <r> reinicia, <esc> acaba", font, Color.black );
-			pala1.dibuja( vent );
 			for (Circulo bola : bolas) {
 				bola.dibuja( vent );
 				// Dibujado de apoyo
@@ -309,12 +313,12 @@ public class PruebaFisicasPong {
 			bola.setVY( Math.abs(bola.getVY()) * bola.salidaVertical( vent ) );  // Hacia adentro siempre
 		}
 		if (choqueLateralPala(bola, pala1)) {  // Si hay choque "plano" horizontal
-			if (bola.getX() < pala1.getX()) bola.setX(pala1.getX()-pala1.getAnchura()/2-bola.getRadio()-0.01);
+			if (bola.getVX() < 0) bola.setX(pala1.getX()-pala1.getAnchura()/2-bola.getRadio()-0.01);
 			else bola.setX(pala1.getX()+pala1.getAnchura()/2+bola.getRadio()+0.01);
 		}
-		while (choqueExtremoPala(bola, pala1)) {  // Solo hay pala1 en esta prueba
-			bola.setX( bola.getX()+bola.getVX()*0.05 );
-			bola.setY( bola.getY()+bola.getVY()*0.05 );
+		while (choqueExtremoPala(bola, pala1)) {  // Ajuste hasta salir de la pala - aproximación peligrosa porque podemos tener que repetir esto muchas veces dependiendo de la velocidad
+			bola.setX( bola.getX()+bola.getVX()*0.005 );
+			bola.setY( bola.getY()+bola.getVY()*0.005 );
 		}
 	}
 

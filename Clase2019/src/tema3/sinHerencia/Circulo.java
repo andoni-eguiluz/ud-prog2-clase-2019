@@ -39,6 +39,15 @@ public class Circulo {
 		this.color = color;
 	}
 	
+	/** Crea un nuevo círculo copiando los datos de otro existente
+	 * @param circulo	Círculo ya creado, del que copiar los datos
+	 */
+	public Circulo( Circulo circulo ) {
+		this( circulo.radio, circulo.x, circulo.y, circulo.color );
+		vX = circulo.vX;
+		vY = circulo.vY;
+	}
+	
 	/** Devuelve el radio del círculo
 	 * @return	Radio en píxels
 	 */

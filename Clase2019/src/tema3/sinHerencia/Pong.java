@@ -21,8 +21,8 @@ public class Pong {
 	
 	private VentanaGrafica ventana;
 	private Circulo bola;
-	private Rect palaI;
-	private Rect palaD;
+	private Rectangulo palaI;
+	private Rectangulo palaD;
 	
 	public void jugar() {
 		ventana = new VentanaGrafica( ANCHURA_VENTANA, ALTURA_VENTANA, "Pong" );
@@ -31,8 +31,8 @@ public class Pong {
 		Random random = new Random();
 		bola.setVX( (random.nextDouble() - 0.5) * 1000);  // Aleaatorio entre -500 y 500
 		bola.setVY( (random.nextDouble() - 0.5) * 500);   // Aleatorio entre -250 y 250
-		palaI = new Rect( 25, ventana.getAltura()/2, 20, 60, Color.green );
-		palaD = new Rect( ventana.getAnchura()-25, ventana.getAltura()/2, 20, 60, Color.blue );
+		palaI = new Rectangulo( 25, ventana.getAltura()/2, 20, 60, Color.green );
+		palaD = new Rectangulo( ventana.getAnchura()-25, ventana.getAltura()/2, 20, 60, Color.blue );
 		bucleJuego();
 	}
 	

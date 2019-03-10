@@ -5,9 +5,9 @@ import tema3.VentanaGrafica;
 
 /** Clase que permite crear y gestionar rectángulos y dibujarlos en una ventana gráfica
  */
-public class Rect {
+public class Rectangulo {
 	
-	private static final Color COLOR_POR_DEFECTO = Color.blue;  // Color por defecto de los rectángulos nuevos
+	private static Color COLOR_POR_DEFECTO = Color.green;  // Color por defecto de los rectángulos nuevos
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -17,43 +17,66 @@ public class Rect {
 	private double y;      // Coordenada y de centro de rectángulo
 	private double vX;     // velocidad x de desplazamiento del rectángulo (en píxels por segundo)
 	private double vY;     // velocidad y de desplazamiento del rectángulo (en píxels por segundo)
+	private double tamX;   // Anchura de rectángulo
+	private double tamY;   // Altura de rectángulo
 	private Color color;   // Color del rectángulo
-	private double anchura; // Anchura del rectángulo
-	private double altura;  // Altura del rectángulo
 
-	/** Crea un nuevo rectángulo de altura y anchura 0, coordenada 0,0, color azul
+	/** Crea un nuevo rectángulo de radio 0, coordenada 0,0, color azul
 	 */
-	public Rect() {
+	public Rectangulo() {
 		color = COLOR_POR_DEFECTO;
 	}
 	
 	/** Crea un nuevo rectángulo
+	 * @param anc	Píxels de anchura del rectángulo (debe ser mayor que 0)
+	 * @param alt	Píxels de altura del rectángulo (debe ser mayor que 0)
 	 * @param x	Coordenada x del centro del rectángulo (en píxels)
 	 * @param y	Coordenada y del centro del rectángulo (en píxels)
 	 * @param color	Color del rectángulo
 	 */
-	public Rect( double x, double y, double anchura, double altura, Color color ) {
+	public Rectangulo( double anc, double alt, double x, double y, Color color ) {
+		this.tamX = anc;
+		this.tamY = alt;
 		this.x = x;
 		this.y = y;
 		this.color = color;
-		this.anchura = anchura;
-		this.altura = altura;
 	}
-
+	
+	/** Crea un nuevo rectángulo, copiando los datos de otro existente
+	 * @param rectangulo	Rectángulo ya creado, del que copiar los datos
+	 */
+	public Rectangulo( Rectangulo rectangulo ) {
+		this( rectangulo.tamX, rectangulo.tamY, rectangulo.x, rectangulo.y, rectangulo.color );
+		vX = rectangulo.vX;
+		vY = rectangulo.vY;
+	}
+	
+	/** Devuelve la anchura del rectángulo
+	 * @return	Anchura en píxels
+	 */
 	public double getAnchura() {
-		return anchura;
+		return tamX;
 	}
 
-	public void setAnchura(double anchura) {
-		this.anchura = anchura;
+	/** Cambia la anchura del rectángulo. Debe ser mayor que cero
+	 * @param anc	Nueva anchura del rectángulo (debe ser mayor que cero)
+	 */
+	public void setAnchura(double anc) {
+		this.tamX = anc;
 	}
 
+	/** Devuelve la altura del rectángulo
+	 * @return	Altura en píxels
+	 */
 	public double getAltura() {
-		return altura;
+		return tamY;
 	}
 
-	public void setAltura(double altura) {
-		this.altura = altura;
+	/** Cambia la altura del rectángulo. Debe ser mayor que cero
+	 * @param anc	Nueva altura del rectángulo (debe ser mayor que cero)
+	 */
+	public void setAltura(double alt) {
+		this.tamY = alt;
 	}
 
 	/** Devuelve la coordenada x del centro del rectángulo
@@ -135,12 +158,11 @@ public class Rect {
 		this.color = color;
 	}
 
-		double rot = 0.0; // rotación del balón (para hacer animación)
 	/** Dibuja el rectángulo en una ventana
 	 * @param v	Ventana en la que dibujar el rectángulo
 	 */
 	public void dibuja( VentanaGrafica v ) {
-		v.dibujaRect( x-anchura/2.0, y-altura/2.0, anchura, altura, 1.0f, color );
+		v.dibujaRect( x-tamX/2, y-tamY/2, tamX, tamY, 2f, color, color );
 	}
 	
 	/** Mueve el rectángulo cambiando su posición según su velocidad lineal y el tiempo
@@ -156,7 +178,7 @@ public class Rect {
 	 * @return	true si se está saliendo por arriba o por abajo (tocar exactamente el borde se entiende así), false en caso contrario
 	 */
 	public boolean seSaleEnVertical( VentanaGrafica v ) {
-		return y-altura/2<=0 || y+altura/2>=v.getAltura();
+		return y-tamY/2<=0 || y+tamY/2>=v.getAltura();
 	}
 
 	/** Comprueba si el rectángulo se sale por la horizontal de la ventana
@@ -164,32 +186,12 @@ public class Rect {
 	 * @return	true si se está saliendo por izquierda o derecha (tocar exactamente el borde se entiende así), false en caso contrario
 	 */
 	public boolean seSaleEnHorizontal( VentanaGrafica v ) {
-		return x-anchura/2<=0 || x+anchura/2>=v.getAnchura();
-	}
-
-	/** Comprueba si el rectángulo se sale por la vertical de la ventana
-	 * @param v	Ventana de comprobación
-	 * @return	+1 si se está saliendo por arriba, -1 si se sale por abajo, 0 si no se sale
-	 */
-	public int salidaVertical( VentanaGrafica v ) {
-		if (y-altura/2<=0) return +1;
-		else if (y+altura/2>=v.getAltura()) return -1;
-		else return 0;
-	}
-
-	/** Comprueba si el rectángulo se sale por la horizontal de la ventana
-	 * @param v	Ventana de comprobación
-	 * @return	+1 si se está saliendo por izquierda, -1 si se sale por derecha, 0 si no se sale
-	 */
-	public int salidaHorizontal( VentanaGrafica v ) {
-		if (x-anchura/2<=0) return +1;
-		else if (x+anchura/2>=v.getAnchura()) return -1;
-		else return 0;
+		return x-tamX/2<=0 || x+tamX/2>=v.getAnchura();
 	}
 
 	@Override
 	public String toString() {
-		return x + "," + y + " (" + anchura + "/" + altura + ")";
+		return x + "," + y + " (" + tamX + "," + tamY + ")";
 	}
 	
 	// Los comentarios de métodos override no son imprescindibles (ya veremos por qué con herencia) pero
@@ -202,7 +204,7 @@ public class Rect {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO a mejorar cuando veamos polimorfismo
-		Rect p2 = (Rect) obj;  // Cast de obj a rectángulo2 (lo entenderemos mejor al ver herencia)
+		Rectangulo p2 = (Rectangulo) obj;  // Cast de obj a rectángulo2 (lo entenderemos mejor al ver herencia)
 		return Math.round(p2.x)==Math.round(x) && Math.round(p2.y)==Math.round(y); // Devuelve true o false dependiendo de las coordenadas de los rectángulos this y p2
 	}
 	

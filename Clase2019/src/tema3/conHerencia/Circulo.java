@@ -8,6 +8,12 @@ import tema3.VentanaGrafica;
 public class Circulo extends Figura {
 	
 	private static final Color COLOR_POR_DEFECTO = Color.blue;  // Color por defecto de los círculos nuevos
+
+	public static void main(String[] args) {
+		// Circulo c2 = new Circulo( Color.red );  // No se hereda el constructor
+		Circulo c1 = new Circulo( 2, 100, 150, Color.yellow );
+		System.out.println( c1 );
+	}
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -18,7 +24,9 @@ public class Circulo extends Figura {
 	/** Crea un nuevo círculo de radio 0, coordenada 0,0, color azul
 	 */
 	public Circulo() {
-		color = COLOR_POR_DEFECTO;
+		super( COLOR_POR_DEFECTO );
+		System.out.println( "Construyo círculo");
+		// color = COLOR_POR_DEFECTO;
 	}
 	
 	/** Crea un nuevo círculo
@@ -28,10 +36,12 @@ public class Circulo extends Figura {
 	 * @param color	Color del círculo
 	 */
 	public Circulo( double radio, double x, double y, Color color ) {
+		super( x, y, color );
+		System.out.println( "Construyo círculo con r,x,y,c");
 		this.radio = radio;
-		this.x = x;
-		this.y = y;
-		this.color = color;
+		// this.x = x;
+		// this.y = y;
+		// this.color = color;
 	}
 	
 	/** Crea un nuevo círculo copiando los datos de otro existente
@@ -107,7 +117,7 @@ public class Circulo extends Figura {
 
 	@Override
 	public String toString() {
-		return x + "," + y + " (" + radio + ")";
+		return super.toString() + " (" + radio + ")";
 	}
 	
 	// Los comentarios de métodos override no son imprescindibles (ya veremos por qué con herencia) pero

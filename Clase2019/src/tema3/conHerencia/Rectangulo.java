@@ -19,7 +19,10 @@ public class Rectangulo extends Figura {
 	/** Crea un nuevo rectángulo de radio 0, coordenada 0,0, color azul
 	 */
 	public Rectangulo() {
-		color = COLOR_POR_DEFECTO;
+		// super();  // Lo pone por defecto Java si no lo ponemos nosotros
+		super( COLOR_POR_DEFECTO );
+		System.out.println( "Construyo círculo");
+		// color = COLOR_POR_DEFECTO;
 	}
 	
 	/** Crea un nuevo rectángulo
@@ -30,11 +33,12 @@ public class Rectangulo extends Figura {
 	 * @param color	Color del rectángulo
 	 */
 	public Rectangulo( double anc, double alt, double x, double y, Color color ) {
+		super( x, y, color );
 		this.tamX = anc;
 		this.tamY = alt;
-		this.x = x;
-		this.y = y;
-		this.color = color;
+		// this.x = x;
+		// this.y = y;
+		// this.color = color;
 	}
 	
 	/** Crea un nuevo rectángulo, copiando los datos de otro existente

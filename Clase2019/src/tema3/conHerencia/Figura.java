@@ -15,6 +15,22 @@ public abstract class Figura /*extends Object */ {
 	protected double vX;     // velocidad x de desplazamiento de la figura (en píxels por segundo)
 	protected double vY;     // velocidad y de desplazamiento de la figura (en píxels por segundo)
 	protected Color color;   // Color de la figura
+	
+	
+//	public Figura() {
+//		System.out.println( "Constructor Figura por defecto");
+//	}
+	
+	public Figura( Color c ) {
+		this.color = c;
+		System.out.println( "Constructor figura con color" );
+	}
+	
+	public Figura( double x, double y, Color c ) {
+		this.x = x;
+		this.y = y;
+		this.color = c;
+	}
 
 	/** Devuelve la coordenada x del centro de la figura
 	 * @return	Coordenada x en píxels (0=izquierda de la ventana)
@@ -120,5 +136,9 @@ public abstract class Figura /*extends Object */ {
 	 */
 	public abstract boolean seSaleEnHorizontal( VentanaGrafica v );
 
+	@Override
+	public String toString() {
+		return x + " , " + y;
+	}
 	
 }

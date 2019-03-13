@@ -108,10 +108,18 @@ public class PongV3 {
 			// Dibujado
 			vent.borra();
 			dibujaBordes();
-			bola.dibuja( vent );
+			// Programación genérica con herencia:
+			Figura[] fs = new Figura[] { bola, pala1, pala2 };
+			for (Figura oj : fs) {  // O el mismo bucle sin for-each:
+			// for (int i=0; i<fs.length; i++) {
+				// Figura oj = fs[i];
+				oj.dibuja( vent );  // Tanto la bola como pala1/pala2 son Figuras luego se pueden dibujar
+			}
+			// En vez de:
+			// bola.dibuja( vent );
+			// pala1.dibuja( vent );
+			// pala2.dibuja( vent );
 			if (DEBUG_CHOQUES) { vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.magenta, 20 ); }  // En modo depuración, dibuja vector de velocidad de la bola
-			pala1.dibuja( vent );
-			pala2.dibuja( vent );
 			vent.repaint();
 			// Ciclo de espera en cada bucle
 			vent.espera( MSGS_POR_FRAME );

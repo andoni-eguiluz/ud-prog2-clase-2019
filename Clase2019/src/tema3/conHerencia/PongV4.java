@@ -16,7 +16,7 @@ import tema3.sinHerencia.Fisica.Polar;
  * quedan posibilidades de bola "incrustada" con choques inadecuados
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
-public class PongV3 {
+public class PongV4 {
 
 	private static final long MSGS_POR_FRAME = 20; // 20 msgs por frame = 50 frames por segundo aprox
 	private static double VEL_JUEGO = 1.0;         // 1.0 = tiempo real. Cuando mayor, más rápido pasa el tiempo y viceversa 
@@ -28,7 +28,7 @@ public class PongV3 {
 	private static final boolean DEBUG_CHOQUES = false;  // Activar si se quiere "depurar" en pantalla los choques (con parada del juego en cada choque-rebote y líneas de referencia de lo que ocurre en cada choque)
 	
 	public static void main(String[] args) {
-		PongV3 juego = new PongV3();
+		PongV4 juego = new PongV4();
 		juego.jugar();
 	}
 	
@@ -108,9 +108,21 @@ public class PongV3 {
 			// Dibujado
 			vent.borra();
 			dibujaBordes();
-			bola.dibuja( vent );
-			pala1.dibuja( vent );
-			pala2.dibuja( vent );
+			// Programación genérica con herencia:
+			Figura[] fs = new Figura[] { bola, pala1, pala2 };
+			// Obsérvese que el array de Figuras tiene en algunas posiciones Circulos y en otras Rectángulos, pero nunca figuras (la clase es abstracta)
+			// (Datos polimórficos - único caso en Java en que un tipo de variable no se corresponde con el dato que contiene - solo se permite con herencia)
+			for (Figura oj : fs) {  // O el mismo bucle sin for-each:
+			// for (int i=0; i<fs.length; i++) {
+				// Figura oj = fs[i];
+				oj.dibuja( vent );  // Tanto la bola como pala1/pala2 son Figuras luego se pueden dibujar
+				// Obsérvese que a veces oj es Circulo, a veces es Rectángulo, y se llama a distinto código en cada caso
+				// (Método polimórfico)
+			}
+			// En vez de:
+			// bola.dibuja( vent );
+			// pala1.dibuja( vent );
+			// pala2.dibuja( vent );
 			if (DEBUG_CHOQUES) { vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.magenta, 20 ); }  // En modo depuración, dibuja vector de velocidad de la bola
 			vent.repaint();
 			// Ciclo de espera en cada bucle

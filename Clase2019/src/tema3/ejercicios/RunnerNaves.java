@@ -1,10 +1,9 @@
 package tema3.ejercicios;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
-
-import com.sun.glass.events.KeyEvent;
 
 import tema3.VentanaGrafica;
 

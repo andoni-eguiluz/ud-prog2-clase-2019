@@ -118,9 +118,19 @@ public class Rectangulo extends Figura {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		// TODO a mejorar cuando veamos polimorfismo
-		Rectangulo p2 = (Rectangulo) obj;  // Cast de obj a rectángulo2 (lo entenderemos mejor al ver herencia)
-		return Math.round(p2.x)==Math.round(x) && Math.round(p2.y)==Math.round(y); // Devuelve true o false dependiendo de las coordenadas de los rectángulos this y p2
+		if (obj instanceof Rectangulo) {
+			Rectangulo p2 = (Rectangulo) obj;  // Cast de obj a rectángulo2 (lo entenderemos mejor al ver herencia)
+			return Math.round(p2.x)==Math.round(x) && Math.round(p2.y)==Math.round(y); // Devuelve true o false dependiendo de las coordenadas de los rectángulos this y p2
+		} else {
+			return false;
+		}
+	}
+
+	public static void main(String[] args) {
+		Rectangulo r1 = new Rectangulo( 0, 0,  0,  0 , Color.black );
+		if (r1.equals("hola")) {
+			System.out.println( "Eres un string" );
+		}
 	}
 	
 }

@@ -129,7 +129,9 @@ public class Circulo extends Figura {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		// TODO a mejorar cuando veamos polimorfismo
+		if (!(obj instanceof Circulo)) {
+			return false;
+		}
 		Circulo p2 = (Circulo) obj;  // Cast de obj a círculo2 (lo entenderemos mejor al ver herencia)
 		return Math.round(p2.x)==Math.round(x) && Math.round(p2.y)==Math.round(y); // Devuelve true o false dependiendo de las coordenadas de los círculos this y p2
 	}

@@ -10,7 +10,7 @@ import com.sun.glass.events.KeyEvent;
 import tema3.VentanaGrafica;
 import tema3.sinHerencia.Fisica.Polar;
 
-/** Juego de pong con HERENCIA
+/** Juego de pong con HERENCIA y POLIMORFISMO
  * con físicas básicas de bola y pala (sin goles, sin puntuación)
  * Choques mejorables - no realizado recálculo de choque inicial de bola con lo que 
  * quedan posibilidades de bola "incrustada" con choques inadecuados
@@ -40,21 +40,28 @@ public class PongV4 {
 	private ArrayList<Circulo> bolas;  // Bolas del juego (tiene una pero está preparado para tener varias)
 	private Rectangulo pala1;          // Pala izquierda del juego (jugador 1)
 	private Rectangulo pala2;          // Pala derecha del juego (jugador 2)
+	private ArrayList<Figura> elementos; // Lista polimórfica de todos los els del juego
 	
 	public void jugar() {
 		Random random = new Random();
 		vent = new VentanaGrafica( 1000, 800, "Juego de pong" );
-		// La bola
-		Circulo bola = new Circulo( RADIO_BOLA, 500, 400, Color.magenta );
-		bola.setVX( random.nextDouble() * VEL_RANGO );
-		bola.setVX( bola.getVX()<0 ? bola.getVX()-VEL_RANGO : bola.getVX()+VEL_MIN ); // Velocidad x (aleatoria entre -500 y +500 px/seg, al menos 300)
-		bola.setVY( random.nextDouble() * VEL_RANGO );
-		bola.setVY( bola.getVY()<0 ? bola.getVY()-VEL_RANGO : bola.getVY()+VEL_MIN ); // Velocidad y (aleatoria entre -500 y +500 px/seg, al menos 300)
+		// Las bolas
 		bolas = new ArrayList<Circulo>();
-		bolas.add( bola );
+		elementos = new ArrayList<Figura>();
+		for (int i=0; i<4; i++) {
+			Circulo bola = new Circulo( RADIO_BOLA, 500, 400, Color.magenta );
+			bola.setVX( (random.nextDouble()-0.5) * VEL_RANGO );
+			bola.setVX( bola.getVX()<0 ? bola.getVX()-VEL_MIN : bola.getVX()+VEL_MIN ); // Velocidad x (aleatoria entre -500 y +500 px/seg, al menos 300)
+			bola.setVY( (random.nextDouble()-0.5) * VEL_RANGO );
+			bola.setVY( bola.getVY()<0 ? bola.getVY()-VEL_MIN : bola.getVY()+VEL_MIN ); // Velocidad y (aleatoria entre -500 y +500 px/seg, al menos 300)
+			bolas.add( bola );
+			elementos.add( bola );
+		}
 		// Las palas
 		pala1 = new Rectangulo( 20, 100, 60, vent.getAltura()/2, Color.green );
 		pala2 = new Rectangulo( 20, 100, vent.getAnchura()-60, vent.getAltura()/2, Color.blue );
+		elementos.add( pala1 );
+		elementos.add( pala2 );
 		mover();
 	}
 	
@@ -64,66 +71,68 @@ public class PongV4 {
 		while (!vent.estaCerrada()) {
 			// Manejo de teclado
 			gestionTeclado();
-			// Movimiento de la bola
-			Circulo bola = bolas.get(0);
 			if (DEBUG_CHOQUES) { // En modo depuración, dibuja palas y vector de velocidad para pantalla de choque
 				vent.borra(); 
-				vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.orange, 20 );
 				pala1.dibuja( vent );
 				pala2.dibuja( vent );
-			}
-			bola.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO );
+			} 
 			// Movimiento de las palas
 			pala1.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO );
 			pala2.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO );
-			// Control de salida de pantalla
-			if (bola.seSaleEnHorizontal( vent )) {
-				bola.setVX( -bola.getVX() );
-				if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.green, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
-			}
-			if (bola.seSaleEnVertical( vent )) {
-				bola.setVY( -bola.getVY() );
-				if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.gray, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
-			}
-			// Choque bola y palas
-			boolean hayChoque = false;
-			if (choqueLateralPala(bola, pala1) || choqueLateralPala(bola, pala2)) {
-				hayChoque = true;
-				bola.setVX( -bola.getVX() );
-				if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.green, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
-			} else if (choqueVerticalPala(bola, pala1) || choqueVerticalPala(bola, pala2)) {
-				hayChoque = true;
-				bola.setVY( -bola.getVY() );
-				if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.gray, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
-			} else if (choqueExtremoPala(bola, pala1) || choqueExtremoPala(bola, pala2)) {  
-				hayChoque = true;
-				// bola.setVX( -bola.getVX() );  // V2 (comportamiento mejorado)
-				if (choqueExtremoPala(bola, pala1)) calculaReboteEsquina( bola, pala1 );
-				else calculaReboteEsquina( bola, pala2 );
-				if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.cyan, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
-			}
-			if (hayChoque) { 
-				reajustaBola( bola ); 
+			for (Circulo bola : bolas) {
+				// Movimiento de las bolas
+				// Circulo bola = bolas.get(0);
+				if (DEBUG_CHOQUES) { // En modo depuración, dibuja palas y vector de velocidad para pantalla de choque
+					vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.orange, 20 );
+				}
+				bola.mueve( MSGS_POR_FRAME/1000.0 * VEL_JUEGO );
+				// Control de salida de pantalla
+				if (bola.seSaleEnHorizontal( vent )) {
+					bola.setVX( -bola.getVX() );
+					if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.green, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
+				}
+				if (bola.seSaleEnVertical( vent )) {
+					bola.setVY( -bola.getVY() );
+					if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.gray, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
+				}
+				// Choque bola y palas
+				boolean hayChoque = false;
+				if (choqueLateralPala(bola, pala1) || choqueLateralPala(bola, pala2)) {
+					hayChoque = true;
+					bola.setVX( -bola.getVX() );
+					if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.green, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
+				} else if (choqueVerticalPala(bola, pala1) || choqueVerticalPala(bola, pala2)) {
+					hayChoque = true;
+					bola.setVY( -bola.getVY() );
+					if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.gray, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
+				} else if (choqueExtremoPala(bola, pala1) || choqueExtremoPala(bola, pala2)) {  
+					hayChoque = true;
+					// bola.setVX( -bola.getVX() );  // V2 (comportamiento mejorado)
+					if (choqueExtremoPala(bola, pala1)) calculaReboteEsquina( bola, pala1 );
+					else calculaReboteEsquina( bola, pala2 );
+					if (DEBUG_CHOQUES) {vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.cyan, 20 ); }  // En modo depuración, dibuja el cambio de velocidad tras choque
+				}
+				if (hayChoque) { 
+					reajustaBola( bola ); 
+				}
 			}
 			// Dibujado
 			vent.borra();
 			dibujaBordes();
-			// Programación genérica con herencia:
-			Figura[] fs = new Figura[] { bola, pala1, pala2 };
-			// Obsérvese que el array de Figuras tiene en algunas posiciones Circulos y en otras Rectángulos, pero nunca figuras (la clase es abstracta)
-			// (Datos polimórficos - único caso en Java en que un tipo de variable no se corresponde con el dato que contiene - solo se permite con herencia)
-			for (Figura oj : fs) {  // O el mismo bucle sin for-each:
-			// for (int i=0; i<fs.length; i++) {
-				// Figura oj = fs[i];
-				oj.dibuja( vent );  // Tanto la bola como pala1/pala2 son Figuras luego se pueden dibujar
-				// Obsérvese que a veces oj es Circulo, a veces es Rectángulo, y se llama a distinto código en cada caso
-				// (Método polimórfico)
+			for (Figura figura : elementos) {
+				figura.dibuja( vent );
+				if (figura instanceof Rectangulo) {
+					System.out.println( ((Rectangulo)figura).getAnchura() );
+				}
+				if (figura instanceof Circulo) {
+					Circulo bola = (Circulo) figura;
+					if (DEBUG_CHOQUES) { vent.dibujaFlecha( figura.getX(), figura.getY(), figura.getX()+figura.getVX()/4, figura.getY()+figura.getVY()/4, 1.0f, Color.magenta, 20 ); }  // En modo depuración, dibuja vector de velocidad de la bola
+					System.out.println( ((Circulo)figura).getRadio() );
+					System.out.println( bola.getRadio() );
+				}
 			}
-			// En vez de:
-			// bola.dibuja( vent );
 			// pala1.dibuja( vent );
 			// pala2.dibuja( vent );
-			if (DEBUG_CHOQUES) { vent.dibujaFlecha( bola.getX(), bola.getY(), bola.getX()+bola.getVX()/4, bola.getY()+bola.getVY()/4, 1.0f, Color.magenta, 20 ); }  // En modo depuración, dibuja vector de velocidad de la bola
 			vent.repaint();
 			// Ciclo de espera en cada bucle
 			vent.espera( MSGS_POR_FRAME );

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import tema3.VentanaGrafica;
+import tema3.ejercicios.runnerNaves.Asteroide;
+import tema3.ejercicios.runnerNaves.Fisica;
+import tema3.ejercicios.runnerNaves.Nave;
+import tema3.ejercicios.runnerNaves.ObjetoEspacial;
 
 /** Juego runner ejercicio 
  * @author andoni.eguiluz @ ingenieria.deusto.es
@@ -191,7 +195,7 @@ public class RunnerNaves {
 	
 	// Choque entre nave y asteroide (simplificado con envolventes círculos)
 	private boolean hayChoque( Nave nave, Asteroide asteroide ) {
-		double dist = Fisica.distancia(nave.x, nave.y, asteroide.x, asteroide.y );
+		double dist = Fisica.distancia(nave.getX(), nave.getY(), asteroide.getX(), asteroide.getY() );
 		return (dist < RADIO_NAVE + asteroide.getRadio());
 	}
 	

@@ -505,7 +505,8 @@ public class VentanaGrafica {
 	 * es imprescindible llamar a este método para que la ventana gráfica se refresque.
 	 */
 	public void repaint() {
-		panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
+		panel.repaint();
+		// panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
 	}
 	
 

@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class ConceptosHerenciaYPolimorfismo {
 	public static void main(String[] args) {
-
 		Fruta f = new Fruta();
 		f.hacerZumo();
 		

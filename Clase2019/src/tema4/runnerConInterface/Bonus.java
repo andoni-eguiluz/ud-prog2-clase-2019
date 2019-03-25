@@ -1,11 +1,12 @@
 package tema4.runnerConInterface;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import tema3.VentanaGrafica;
 
 /** Clase que permite crear y gestionar bonus y dibujarlos en una ventana gráfica
  */
-public class Bonus extends ObjetoEspacial implements Rotable {
+public class Bonus extends ObjetoEspacial implements Rotable, Salible {
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -96,6 +97,10 @@ public class Bonus extends ObjetoEspacial implements Rotable {
 		} else {
 			return false;
 		}
+	}
+	
+	public void sal( ArrayList<ObjetoEspacial> l ) {
+		l.remove( this );
 	}
 	
 }

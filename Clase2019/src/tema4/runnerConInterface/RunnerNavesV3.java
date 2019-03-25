@@ -53,6 +53,7 @@ public class RunnerNavesV3 {
 		System.out.println( String.format( "Inicio juego. Asteroide %1$1.1f%% - Bonus %2$1.1f%%", PROB_NUEVO_AST*100.0, PROB_NUEVO_BONUS*100.0 ) );
 		random = new Random();
 		vent = new VentanaGrafica( 1200, 600, "Runner de naves" );
+//		vent.getJFrame().setLocation(2000, 0);  // (Solo para mostrar ventana en segunda pantalla)
 		crearFondos();
 		crearNaves();
 		mover();
@@ -107,12 +108,12 @@ public class RunnerNavesV3 {
 			}
 			// Rotación de los bonus y los asteroides
 			for (ObjetoEspacial objeto : elementos) {
-				if (objeto instanceof Asteroide) {
-					((Asteroide)objeto).rotar( 0.1 );
-				} else if (objeto instanceof Bonus) {
-					((Bonus)objeto).rotar( 0.1 );
-				}
-				
+				// Código antiguo
+//				if (objeto instanceof Asteroide) {
+//					((Asteroide)objeto).rotar( 0.1 );
+//				} else if (objeto instanceof Bonus) {
+//					((Bonus)objeto).rotar( 0.1 );
+//				}
 				if (objeto instanceof Rotable) {
 					((Rotable) objeto).rotar(0.1);
 				}
@@ -124,20 +125,32 @@ public class RunnerNavesV3 {
 			// Control de salida de pantalla de los asteroides y los bonus (y cambio de los fondos)
 			for (int i=elementos.size()-1; i>=0; i--) {
 				ObjetoEspacial oe = elementos.get(i);
-				if (oe instanceof Asteroide) {
-					Asteroide a = (Asteroide) oe;
-					if (a.seSalePorLaIzquierda( vent )) {
-						elementos.remove( a );
-					}
-				} else if (oe instanceof Bonus) {
-					Bonus b = (Bonus) oe;
-					if (b.seSalePorLaIzquierda( vent )) {
-						elementos.remove( b );
-					}
-				} else if (oe instanceof Fondo) {
-					Fondo f = (Fondo) oe;
-					if (f.seSalePorLaIzquierda( vent )) {
-						f.setX( f.getX() + 3000 );  // 1000 píxels de ancho cada fondo
+//				if (oe instanceof Asteroide) {
+//					Asteroide a = (Asteroide) oe;
+//					if (a.seSalePorLaIzquierda( vent )) {
+//						elementos.remove( a );
+//					}
+//				} else if (oe instanceof Bonus) {
+//					Bonus b = (Bonus) oe;
+//					if (b.seSalePorLaIzquierda( vent )) {
+//						elementos.remove( b );
+//					}
+//				} else if (oe instanceof Fondo) {
+//					Fondo f = (Fondo) oe;
+//					if (f.seSalePorLaIzquierda( vent )) {
+//						f.setX( f.getX() + 3000 );  // 1000 píxels de ancho cada fondo
+//					}
+//				}
+				if (oe instanceof Salible) {
+					Salible s = (Salible) oe;
+					if (s.seSalePorLaIzquierda(vent)) {
+						s.sal(elementos);
+//						if (s instanceof Fondo) {
+//							Fondo f = (Fondo) oe;
+//							f.setX( f.getX() + 3000 );  // 1000 píxels de ancho cada fondo
+//						} else {
+//							elementos.remove( oe );
+//						}
 					}
 				}
 			}
@@ -155,6 +168,7 @@ public class RunnerNavesV3 {
 							Asteroide a = (Asteroide) oe2;
 							if (hayChoque(nave, a)) {
 								choque = true;
+								a.explota(); // Explotable
 								// break; No acabar bucle (miramos más colisiones por si también hay un bonus que protege)
 							}
 						} else if (oe2 instanceof Bonus) {
@@ -174,6 +188,17 @@ public class RunnerNavesV3 {
 					if (choque && nave.getProteccion()<=0.0) {
 						elementos.remove( nave );  // Fuera nave
 						naves.remove( nave );  // Da igual aquí naves.remove( i );
+					}
+				}
+			}
+			// Explosiones
+			for (int i=elementos.size()-1; i>=0; i--) {
+			// for (ObjetoEspacial oe : elementos) { // No se puede hacer foreach porque no se puede hacer remove en un foreach
+				ObjetoEspacial oe = elementos.get(i);
+				if (oe instanceof Explotable) {
+					Explotable e = (Explotable) oe;
+					if (e.yaDesaparecido()) {
+						elementos.remove( i ); // lo mismo que remove(e)
 					}
 				}
 			}

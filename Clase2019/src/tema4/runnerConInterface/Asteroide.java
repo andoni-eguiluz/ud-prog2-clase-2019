@@ -1,11 +1,12 @@
 package tema4.runnerConInterface;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import tema3.VentanaGrafica;
 
 /** Clase que permite crear y gestionar asteroides y dibujarlos en una ventana gráfica
  */
-public class Asteroide extends ObjetoEspacial implements Rotable {
+public class Asteroide extends ObjetoEspacial implements Rotable, Salible, Explotable {
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -13,6 +14,10 @@ public class Asteroide extends ObjetoEspacial implements Rotable {
 	
 	private double radio;  // Radio de asteroide
 	private double rot = 0.0; // rotación del asteroide (para hacer animación)
+	
+	// Atributos para el interfaz Explotable
+	private boolean explotado = false;
+	private double tiempoExplosion = 3.0;  // La expl dura 3 segundos
 
 	/** Crea un nuevo asteroide
 	 * @param radio	Píxels de radio del asteroide (debe ser mayor que 0)
@@ -81,5 +86,42 @@ public class Asteroide extends ObjetoEspacial implements Rotable {
 			return false;
 		}
 	}
+	
+	public void sal( ArrayList<ObjetoEspacial> l ) {
+		l.remove( this );
+	}
+
+	// Métodos nuevos de interfaz Explotable
+	
+	@Override
+	public void explota() {
+		explotado = true;
+		tiempoExplosion = 2.0;  // Aquí o en inicialización del atributo
+	}
+
+	@Override
+	public boolean estaExplotando() {
+		return explotado;
+	}
+
+	@Override
+	public boolean yaDesaparecido() {
+		System.out.println( tiempoExplosion );
+		return explotado && tiempoExplosion<=0.0;
+	}
+
+	// Métodos redefinidos por interfaz Explotable
+	
+	@Override
+	public void mueve(double segs) {
+		super.mueve(segs);
+		// COmportamiento de explosión
+		if (explotado) {
+			tiempoExplosion -= segs;
+		}
+	}
+	
+	
+	
 	
 }

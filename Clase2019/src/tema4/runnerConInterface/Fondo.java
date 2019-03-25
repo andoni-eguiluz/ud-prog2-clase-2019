@@ -1,10 +1,12 @@
 package tema4.runnerConInterface;
 
+import java.util.ArrayList;
+
 import tema3.VentanaGrafica;
 
 /** Clase que permite crear y gestionar imágenes de fondo y dibujarlas en una ventana gráfica
  */
-public class Fondo extends ObjetoEspacial {
+public class Fondo extends ObjetoEspacial implements Salible {
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -73,5 +75,8 @@ public class Fondo extends ObjetoEspacial {
 			return false;
 		}
 	}
-	
+
+	public void sal( ArrayList<ObjetoEspacial> l ) {
+		setX( getX() + 3000 );  // 1000 píxels de ancho cada fondo
+	}
 }

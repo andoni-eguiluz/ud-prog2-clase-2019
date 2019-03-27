@@ -43,12 +43,21 @@ public class Asteroide extends ObjetoEspacial implements Rotable, Salible, Explo
 		this.radio = radio;
 	}
 
+	// CAMBIO CON EXPLOSION
 	/** Dibuja el asteroide en una ventana
 	 * @param v	Ventana en la que dibujar el asteroide
 	 */
 	@Override
 	public void dibuja( VentanaGrafica v ) {
-		v.dibujaImagen( "/img/asteroid.png", x, y, 2*radio/500, rot, 1.0f );  // el gráfico tiene 500 píxels
+		String nombre = "/img/asteroid.png";
+		float transp = 1.0f;
+		if (estaExplotando()) {
+			nombre = "/img/asteroid-roto.png";
+			if (tiempoExplosion < 1.0) {
+				transp = (float) tiempoExplosion;
+			}
+		}
+		v.dibujaImagen( nombre, x, y, 2*radio/500, rot, transp );  // el gráfico tiene 500 píxels
 		if (DIBUJA_ENVOLVENTE) v.dibujaCirculo( x, y, radio, 2f, Color.magenta );  // Pintado a título de referencia de prueba
 	}
 
@@ -106,7 +115,6 @@ public class Asteroide extends ObjetoEspacial implements Rotable, Salible, Explo
 
 	@Override
 	public boolean yaDesaparecido() {
-		System.out.println( tiempoExplosion );
 		return explotado && tiempoExplosion<=0.0;
 	}
 

@@ -1,11 +1,12 @@
 package tema4.runnerConInterface;
 import java.awt.Color;
+import java.util.Random;
 
 import tema3.VentanaGrafica;
 
 /** Clase que permite crear y gestionar naves y dibujarlas en una ventana gráfica
  */
-public class Nave extends ObjetoEspacial {
+public class Nave extends ObjetoEspacial implements Explotable {
 	
 	// =================================================
 	// PARTE DE OBJETO (NO STATIC)
@@ -15,6 +16,11 @@ public class Nave extends ObjetoEspacial {
 	private boolean bajando;       // false si la nave está bajando
 	private int canal;             // Número de canal en el que está la nave
 	private double segsProteccion; // Segundos que tiene de "escudo" protector la nave
+
+	// Atributos para el interfaz Explotable
+	private boolean explotado = false;
+	private double tiempoExplosion;  // El tiempo de explosión se inicializa en la explosión
+	private Random random = new Random();  // Para el aleatorio del dibujo de la explosión
 
 	/** Crea una nueva nave
 	 * @param x	Coordenada x del centro de la nave (en píxels)
@@ -51,6 +57,10 @@ public class Nave extends ObjetoEspacial {
 		if (segsProteccion>0.0) {
 			segsProteccion -= segs;
 			if (segsProteccion<0.0) segsProteccion = 0.0;
+		}
+		// COmportamiento de explosión
+		if (explotado) {
+			tiempoExplosion -= segs;
 		}
 	}
 	
@@ -101,24 +111,34 @@ public class Nave extends ObjetoEspacial {
 	 */
 	@Override
 	public void dibuja( VentanaGrafica v ) {
-		double angulo = 0.0;
-		if (subiendo) {
-			angulo = -0.2;  // la nave quiere dibujarse subiendo 0.2 radianes
-		} else if (bajando) {
-			angulo = +0.2;  // la nave quiere dibujarse bajando 0.2 radianes
-		}
-		String imagen = "/img/nave.png";    // Dibujo de nave normal
-		if (vX>0.0) {
-			imagen = "/img/nave-prop.png";  // Si la nave avanza gráfico con propulsores traseros
-		} else if (vX<0.0) {
-			imagen = "/img/nave-frena.png"; // Si la nave frena gráfico con propulsores delanteros
-		}
-		v.dibujaImagen( imagen, x, y, 50.0/500.0, angulo, 1.0f );  // el gráfico tiene 500 píxels y la nave quiere dibujarse con 50
-		if (segsProteccion>0.0) {
+		if (estaExplotando()) {
+			String nombre = "/img/explosion1.png";
 			float transp = 1.0f;
-			imagen = "/img/escudo.png";
-			if (segsProteccion<2.0) transp = (float) (segsProteccion/2.0);  // Los últimos 2 segundos decrece visualmente la opacidad del escudo
-			v.dibujaImagen( imagen, x, y, 50.0/500.0, 0.0, transp );  // burbuja escudo (transparente creciente en el último segundo)
+			if (random.nextInt(2)<1) nombre = "/img/explosion2.png"; 
+			if (tiempoExplosion < 1.0) {
+				transp = (float) tiempoExplosion;
+			}
+			v.dibujaImagen( nombre, x, y, 50.0/500.0, 0.0, transp );
+		} else {
+			double angulo = 0.0;
+			if (subiendo) {
+				angulo = -0.2;  // la nave quiere dibujarse subiendo 0.2 radianes
+			} else if (bajando) {
+				angulo = +0.2;  // la nave quiere dibujarse bajando 0.2 radianes
+			}
+			String imagen = "/img/nave.png";    // Dibujo de nave normal
+			if (vX>0.0) {
+				imagen = "/img/nave-prop.png";  // Si la nave avanza gráfico con propulsores traseros
+			} else if (vX<0.0) {
+				imagen = "/img/nave-frena.png"; // Si la nave frena gráfico con propulsores delanteros
+			}
+			v.dibujaImagen( imagen, x, y, 50.0/500.0, angulo, 1.0f );  // el gráfico tiene 500 píxels y la nave quiere dibujarse con 50
+			if (segsProteccion>0.0) {
+				float transp = 1.0f;
+				imagen = "/img/escudo.png";
+				if (segsProteccion<2.0) transp = (float) (segsProteccion/2.0);  // Los últimos 2 segundos decrece visualmente la opacidad del escudo
+				v.dibujaImagen( imagen, x, y, 50.0/500.0, 0.0, transp );  // burbuja escudo (transparente creciente en el último segundo)
+			}
 		}
 		if (DIBUJA_ENVOLVENTE) v.dibujaCirculo( x, y, 25, 2f, Color.orange );  // Pintado a título de referencia de prueba
 	}
@@ -141,5 +161,32 @@ public class Nave extends ObjetoEspacial {
 			return false;
 		}
 	}
+
+	
+	@Override
+	public void explota() {
+		explotado = true;
+		tiempoExplosion = 2.0;  // Aquí o en inicialización del atributo
+		vY = 0;  // Conveniente poner la velocidad vertical a 0 para que no siga subiendo o bajando mientras está explotada
+	}
+	
+	@Override
+	public boolean estaExplotando() {
+		return explotado;
+	}
+
+	@Override
+	public boolean yaDesaparecido() {
+		return explotado && tiempoExplosion<=0.0;
+	}
+
+	// Métodos añadidos por cambio de comportamiento
+	@Override
+	public void setVY(double vy) {
+		if (explotado) return; // Si está explotada, no cambia su velocidad vertical (no tiene sentido porque ya no es manipulable)
+		super.setVY(vy);  // Si no se comporta normal
+	}
+
+
 	
 }

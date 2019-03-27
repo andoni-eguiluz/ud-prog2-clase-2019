@@ -9,6 +9,8 @@ import tema3.VentanaGrafica;
 
 /** Juego runner ejercicio - con desplazamiento lateral de las naves añadido
  * Con bonus que funcionan como los asteroides pero en lugar de explotar la nave se gana tiempo de protección
+ * Con interfaces (Salible, Rotable)
+ * Con explosiones e interfaz Explotable
  * @author andoni.eguiluz @ ingenieria.deusto.es
  */
 public class RunnerNavesV3 {
@@ -53,7 +55,7 @@ public class RunnerNavesV3 {
 		System.out.println( String.format( "Inicio juego. Asteroide %1$1.1f%% - Bonus %2$1.1f%%", PROB_NUEVO_AST*100.0, PROB_NUEVO_BONUS*100.0 ) );
 		random = new Random();
 		vent = new VentanaGrafica( 1200, 600, "Runner de naves" );
-//		vent.getJFrame().setLocation(2000, 0);  // (Solo para mostrar ventana en segunda pantalla)
+		// vent.getJFrame().setLocation(2000, 0);  // (Solo para mostrar ventana en segunda pantalla)
 		crearFondos();
 		crearNaves();
 		mover();
@@ -157,7 +159,7 @@ public class RunnerNavesV3 {
 			// Choque naves con asteroides (todos con todos)
 			for (int i=naves.size()-1; i>=0; i--) {  // OJO: Como se pueden borrar hay que recorrerlo en sentido inverso
 				ObjetoEspacial oe = naves.get(i);
-				if (oe instanceof Nave) {
+				if (oe instanceof Nave && !((Nave)oe).estaExplotando()) {  // Si ya explotando no hay que controlar los choques
 					Nave nave = (Nave) oe;
 					boolean choque = false;
 					double tiempoBonus = 0.0;
@@ -166,7 +168,7 @@ public class RunnerNavesV3 {
 					for (ObjetoEspacial oe2 : elementos) {
 						if (oe2 instanceof Asteroide) {
 							Asteroide a = (Asteroide) oe2;
-							if (hayChoque(nave, a)) {
+							if (hayChoque(nave, a) && !a.estaExplotando()) {
 								choque = true;
 								a.explota(); // Explotable
 								// break; No acabar bucle (miramos más colisiones por si también hay un bonus que protege)
@@ -186,7 +188,8 @@ public class RunnerNavesV3 {
 						nave.addProteccion( tiempoBonus );
 					}
 					if (choque && nave.getProteccion()<=0.0) {
-						elementos.remove( nave );  // Fuera nave
+						nave.explota();
+						// elementos.remove( nave );  // Fuera nave
 						naves.remove( nave );  // Da igual aquí naves.remove( i );
 					}
 				}
@@ -195,10 +198,11 @@ public class RunnerNavesV3 {
 			for (int i=elementos.size()-1; i>=0; i--) {
 			// for (ObjetoEspacial oe : elementos) { // No se puede hacer foreach porque no se puede hacer remove en un foreach
 				ObjetoEspacial oe = elementos.get(i);
-				if (oe instanceof Explotable) {
+				if (oe instanceof Explotable) {  // tanto si es nave como asteroide
 					Explotable e = (Explotable) oe;
 					if (e.yaDesaparecido()) {
-						elementos.remove( i ); // lo mismo que remove(e)
+						elementos.remove( i ); // lo mismo que remove(e)    
+						naves.remove( e );  // Por si acaso es nave se borra también de la lista de naves (no hace falta chequear si es asteroide, porque el remove no hace nada si el elemento no está)
 					}
 				}
 			}

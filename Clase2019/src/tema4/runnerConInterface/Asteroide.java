@@ -77,6 +77,10 @@ public class Asteroide extends ObjetoEspacial implements Rotable, Salible, Explo
 		return x+radio<=0;
 	}
 
+	public void sal( ArrayList<ObjetoEspacial> l ) {
+		l.remove( this );
+	}
+
 	@Override
 	public String toString() {
 		return "Asteroide " + super.toString() + " (" + radio + ")";
@@ -96,10 +100,6 @@ public class Asteroide extends ObjetoEspacial implements Rotable, Salible, Explo
 		}
 	}
 	
-	public void sal( ArrayList<ObjetoEspacial> l ) {
-		l.remove( this );
-	}
-
 	// Métodos nuevos de interfaz Explotable
 	
 	@Override

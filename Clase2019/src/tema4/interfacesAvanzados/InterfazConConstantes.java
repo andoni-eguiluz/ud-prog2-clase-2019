@@ -1,4 +1,4 @@
-package tema4.interfacesAvanzados;
+	package tema4.interfacesAvanzados;
 
 /** Ejemplo de interfaz con constantes
  * @author andoni.eguiluz @ ingenieria.deusto.es

@@ -11,3 +11,10 @@ public interface InterfazConDefault {
 		return -1;
 	}
 }
+
+class Ejemplo implements InterfazConDefault {
+	@Override
+	public void comportamiento1( ) {
+		// algo
+	}
+}

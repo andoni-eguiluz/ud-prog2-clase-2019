@@ -56,17 +56,20 @@ public class EjemploJavaCollections {
 	}
 	
 	private static void finProceso() {
-		System.out.println( "AL: " + lEquipos.size() + " - " + lEquipos );
-		System.out.println( "HS: " + hsEquipos.size() + " - " + hsEquipos );
-		System.out.println( "TS: " + tsEquipos.size() + " - " + tsEquipos );
-		System.out.println( "Con arraylist:" );
+		System.out.println( "Equipos sin duplicados" );
+		System.out.println( "Usando AL: " + lEquipos.size() + " - " + lEquipos );
+		System.out.println( "Usando HS: " + hsEquipos.size() + " - " + hsEquipos );
+		System.out.println( "Usando TS: " + tsEquipos.size() + " - " + tsEquipos );
+		
+		System.out.println( "Recorrido. Con arraylist:" );
 		for (int i=0; i<lEquipos.size(); i++) {
 			System.out.println( "  " + lEquipos.get(i) );
 			// No hay posición en los sets tsEquipos.get
 		}
-		System.out.println( "Con treeset:" );
+		System.out.println( "Recorrido. Con treeset:" );
 		for (String equipo : tsEquipos) {
 			System.out.println( "  " + equipo );
 		}
 	}
+	
 }

@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class EjemploExcepciones {
+public class EjemploExcepcionesUrl {
 	
 	/** Busca en una dirección web un substring determinado, y devuelve todas las líneas que lo contengan
 	 * @param url	Dirección web

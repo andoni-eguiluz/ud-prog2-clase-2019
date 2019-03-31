@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /** Clase ventana sencilla para dibujado directo a la ventana
- * v 1.1.5 - Incorpora método para cambiar el tipo de letra de la línea de mensajes
+ * v 1.1.5 - Incorpora método para cambiar el tipo de letra de la línea de mensajes, método para consultar el mensaje actual
  * v 1.1.4 - Incorpora métodos para pedir datos desde teclado
  */
 public class VentanaGrafica {
@@ -355,6 +355,13 @@ public class VentanaGrafica {
 			lMens.setText( " " );
 		else
 			lMens.setText( mensaje );
+	}
+	
+	/** Devuelve el mensaje actual de la ventana (línea inferior de mensajes)
+	 * @return	Mensaje actual
+	 */
+	public String getMensaje() {
+		return lMens.getText();
 	}
 	
 	/** Cambia el tipo de letra de la línea inferior de mensajes

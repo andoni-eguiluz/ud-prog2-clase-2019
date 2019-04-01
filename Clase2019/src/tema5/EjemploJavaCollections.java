@@ -38,7 +38,9 @@ public class EjemploJavaCollections {
 	private static ArrayList<String> lEquipos = new ArrayList<>();
 	private static HashSet<String> hsEquipos = new HashSet<>();
 	private static TreeSet<String> tsEquipos = new TreeSet<>();
-	private static HashMap<String,Integer> hmEquipos = new HashMap<>();
+	private static HashMap<String,Integer> hmEquipos = new HashMap<String, Integer>();
+	private static TreeMap<String,Contador> tmEquipos = new TreeMap<>();
+	private static TreeMap<String,ArrayList<String>> tmPartidos = new TreeMap<>();
 
 	// Proceso de cada equipo
 	private static void procesaEquipo( String equipo ) {
@@ -53,6 +55,57 @@ public class EjemploJavaCollections {
 		// Mapas:  ¿cómo calcular por ejemplo el número de veces que aparece cada equipo?
 		// hmEquipos.put( clave, valor )
 		// hmEquipos.get( clave ) -> valor  (null si no está) 
+		// Quiero ir calculando el nº de veces que aparece cada equipo
+		if (hmEquipos.containsKey( equipo )) {
+			int valor = hmEquipos.get( equipo ).intValue(); // podríamos hacer inc si se pudiera
+			valor++;
+			hmEquipos.put( equipo, new Integer(valor) );  // sustituye
+		} else {
+			hmEquipos.put( equipo, new Integer(1) );
+		}
+		// Versión 2 - utilizando integers no inmutables
+		Contador c = tmEquipos.get( equipo );
+		if (c==null) {
+			Contador c2 = new Contador();
+			tmEquipos.put( equipo, c2 );
+		} else {
+			// tmEquipos.get( equipo ).inc();
+			c.inc();
+			// c = new Contador( c.get() + 1 );  // NO FUNCIONARIA
+		}
+		
+		// Sacar lista de partidos
+		if (primerEquipo==null) {  // Equipo impar
+			primerEquipo = equipo;
+		} else {  // Equipo par
+			procesaPartido( primerEquipo, equipo );
+			primerEquipo = null;
+		}
+	}
+		private static String primerEquipo = null;
+		
+	private static void procesaPartido( String eq1, String eq2 ) {
+		// Actualiza el partido en la lista del equipo 1
+		ArrayList<String> l1 = tmPartidos.get( eq1 );
+		if (l1==null) {
+			l1 = new ArrayList<String>();
+			tmPartidos.put( eq1, l1 );
+		}
+		l1.add( eq1 );
+		l1.add( eq2 );
+		// Actualiza el partido en la lista del equipo 2
+		ArrayList<String> l2 = tmPartidos.get( eq2 );
+		if (l2==null) {
+			l2 = new ArrayList<String>();
+			tmPartidos.put( eq2, l2 );
+		}
+		l2.add( eq1 );
+		l2.add( eq2 );
+		
+		// TAREA - Cómo hacer esto con objetos "Partido" que contengan
+		// dos equipos cada uno? (y también los resultados modo advance)
+		
+		
 	}
 	
 	private static void finProceso() {
@@ -69,6 +122,22 @@ public class EjemploJavaCollections {
 		System.out.println( "Recorrido. Con treeset:" );
 		for (String equipo : tsEquipos) {
 			System.out.println( "  " + equipo );
+		}
+		// Visualizar y comprobar que hay siempre 38
+		System.out.println( hmEquipos );
+		// hmEquipos.keySet() - claves
+		// hmEquipos.values() - valores
+		for (Integer numPartidos : hmEquipos.values()) {
+			if (numPartidos!=38) {
+				System.out.println( "Error: " + numPartidos + " en vez de 38" );
+			}
+		}
+		
+		System.out.println( tmEquipos );
+		
+		System.out.println( tmPartidos );
+		for (String equipo : tmPartidos.keySet()) {
+			System.out.println( equipo + " -> " + tmPartidos.get(equipo) );
 		}
 	}
 	

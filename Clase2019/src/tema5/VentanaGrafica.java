@@ -898,4 +898,12 @@ public class VentanaGrafica {
 		return retornoLecturaTexto;
 	}
 	
+	/** Muestra un cuadro de diálogo encima de la ventana y espera a que el usuario lo pulse
+	 * @param titulo	Título del diálogo
+	 * @param mensaje	Texto a mostrar
+	 */
+	public void sacaDialogo( String titulo, String mensaje ) {
+		JOptionPane.showMessageDialog( ventana, mensaje, titulo, JOptionPane.INFORMATION_MESSAGE );
+	}
+	
 }

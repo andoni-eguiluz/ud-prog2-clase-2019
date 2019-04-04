@@ -27,5 +27,6 @@ public class EjemploProblemasHashYTree {
 		
 		System.out.println( ts );
 		
+		// ¿Cómo resolver estos problemas?
 	}
 }

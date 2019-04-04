@@ -1,4 +1,4 @@
-package tema5.ejemploMoon;
+package varios.ejemploMoon;
 
 /** Enum para los modos de juego de Moon (de momento solo dos implementados)
  * @author andoni.eguiluz at deusto.es

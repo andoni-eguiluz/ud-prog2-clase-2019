@@ -1,9 +1,9 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 import java.awt.Point;
 
 import tema5.VentanaGrafica;
-import tema5.ejemploMoon.Mesa;
+import varios.ejemploMoon.Mesa;
 
 /** Clase abstracta para todas las fichas
  * @author andoni.eguiluz at deusto.es

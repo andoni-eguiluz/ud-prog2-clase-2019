@@ -1,10 +1,10 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 
-import tema5.ejemploMoon.Mesa;
+import varios.ejemploMoon.Mesa;
 
 /** Clase para ficha de marca (texto libre en la ficha)
  * @author andoni.eguiluz at deusto.es

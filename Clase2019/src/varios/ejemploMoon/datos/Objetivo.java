@@ -1,10 +1,10 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 import java.awt.Point;
 
 import tema5.VentanaGrafica;
-import tema5.ejemploMoon.EstadoDeJuego;
-import tema5.ejemploMoon.Mesa;
+import varios.ejemploMoon.EstadoDeJuego;
+import varios.ejemploMoon.Mesa;
 
 /** Clase para ficha objetivo
  * @author andoni.eguiluz at deusto.es

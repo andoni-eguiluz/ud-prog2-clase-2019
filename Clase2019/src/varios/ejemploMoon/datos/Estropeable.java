@@ -1,4 +1,4 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 /** Interfaz para las fichas que pueden estropearse (con eventos de ERROR)
  * @author andoni.eguiluz at deusto.es

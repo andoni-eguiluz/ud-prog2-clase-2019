@@ -1,4 +1,4 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 /** Interfaz para las fichas que pueden hacerse transparentes u opacas en pantalla (animación de transparencia)
  * @author andoni.eguiluz at deusto.es

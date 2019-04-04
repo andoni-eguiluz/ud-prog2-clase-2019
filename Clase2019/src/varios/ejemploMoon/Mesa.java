@@ -1,10 +1,10 @@
-package tema5.ejemploMoon;
+package varios.ejemploMoon;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import tema5.VentanaGrafica;
-import tema5.ejemploMoon.datos.*;
+import varios.ejemploMoon.datos.*;
 
 /** Clase principal de la mesa del juego con toda la información de las fichas que se encuentran en él
  * @author andoni.eguiluz at deusto.es

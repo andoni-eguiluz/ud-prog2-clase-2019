@@ -1,4 +1,4 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 /** Comportamiento de las fichas en las que se puede hacer drag sobre otra ficha 
  * @author andoni.eguiluz at deusto.es

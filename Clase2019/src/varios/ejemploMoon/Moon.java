@@ -1,4 +1,4 @@
-package tema5.ejemploMoon;
+package varios.ejemploMoon;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import tema5.VentanaGrafica;
-import tema5.ejemploMoon.datos.*;
-import tema5.ejemploMoon.datos.Evento.TipoOp;
+import varios.ejemploMoon.datos.*;
+import varios.ejemploMoon.datos.Evento.TipoOp;
 
 /** Clase principal del juego moon, permite definir objetos de juego asociados a una ventana gráfica
  * @author andoni.eguiluz at deusto.es

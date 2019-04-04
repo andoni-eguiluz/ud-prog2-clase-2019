@@ -1,4 +1,4 @@
-package tema5.ejemploMoon;
+package varios.ejemploMoon;
 
 /** Enum para los estados posibles del juego Moon
  * @author andoni.eguiluz at deusto.es

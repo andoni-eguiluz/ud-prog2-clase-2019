@@ -1,4 +1,4 @@
-package tema5.ejemploMoon.datos;
+package varios.ejemploMoon.datos;
 
 public enum TipoRegistro {
 	AX, BX, CX, DX

@@ -3,6 +3,9 @@ package tema5;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+/** Requisitos para que funcione un tipo en hash y en tree (tanto en sets como en mapas. En este ejemplo miramos solo los sets)
+ * @author andoni.eguiluz at deusto.es
+ */
 public class RequisitosHashYTree {
 	public static void main(String[] args) {
 		// Prueba de hashset

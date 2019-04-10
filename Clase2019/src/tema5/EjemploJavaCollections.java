@@ -103,7 +103,7 @@ public class EjemploJavaCollections {
 		l2.add( eq2 );
 		
 		// TAREA - Cómo hacer esto con objetos "Partido" que contengan
-		// dos equipos cada uno? (y también los resultados modo advance)
+		// dos equipos cada uno? (y también los resultados [deberás investigar el html para eso])
 		
 		
 	}

@@ -1,4 +1,4 @@
-package tema7;
+package temas78;
 
 import java.awt.*;
 import javax.swing.*;

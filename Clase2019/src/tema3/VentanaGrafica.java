@@ -91,15 +91,20 @@ public class VentanaGrafica {
 				}
 			}
 		});
-		try {
-			SwingUtilities.invokeAndWait( new Runnable() {
-				@Override
-				public void run() {
-					ventana.setVisible( true );
-				}
-			});
-		} catch (InvocationTargetException | InterruptedException e1) {
-			e1.printStackTrace();
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				ventana.setVisible( true );
+			}
+		};
+		if (SwingUtilities.isEventDispatchThread()) {
+			r.run();
+		} else {
+			try {
+				SwingUtilities.invokeAndWait( r );
+			} catch (InvocationTargetException | InterruptedException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

@@ -1,4 +1,4 @@
-package temas78.ejemplosSwing;
+package temas78.ejemplosSwing.modelos;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

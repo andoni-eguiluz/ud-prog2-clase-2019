@@ -2,6 +2,9 @@ package temas78.clasesInternas;
 
 import java.util.Random;
 
+/** Ejemplo de clase externa con clases interna y anónima
+ * @author andoni.eguiluz at deusto.es
+ */
 public class ClaseExterna {
 	private int ce;  // Atributo clase externa
 	public int getDatoExterno() { return ce; }

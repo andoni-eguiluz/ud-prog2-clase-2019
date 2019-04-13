@@ -1,5 +1,8 @@
 package temas78.clasesInternas;
 
+/** Prueba del ejemplo de clase interna (ver ClaseExterna.java)
+ * @author andoni.eguiluz at deusto.es
+ */
 public class PruebaClaseInterna {
 	public static void main(String[] args) {
 		ClaseExterna objetoCE = new ClaseExterna();

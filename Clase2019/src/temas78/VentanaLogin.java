@@ -3,7 +3,6 @@ package temas78;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
-
 import javax.swing.*;
 
 public class VentanaLogin extends JFrame {
@@ -17,6 +16,7 @@ public class VentanaLogin extends JFrame {
 	private JTextField tfNick;
 	private JTextField tfPassword;
 	private JLabel lMensaje;
+	private JLabel lLogotipo;
 	private JButton bAceptar;
 	private JButton bCancelar;
 	
@@ -34,7 +34,7 @@ public class VentanaLogin extends JFrame {
 		// Crear componentes y contenedores
 		JLabel lNick = new JLabel( "Nick:" );
 		JLabel lPassword = new JLabel( "Password:" );
-		JLabel lLogotipo = new JLabel( new ImageIcon( "src/img/UD-icon.png" ) );
+		lLogotipo = new JLabel( new ImageIcon( "src/img/UD-icon.png" ) );
 		tfNick = new JTextField( 10 );
 		tfPassword = new JTextField( 5 );
 		lMensaje = new JLabel();
@@ -59,6 +59,10 @@ public class VentanaLogin extends JFrame {
 		pInferior.add( bAceptar );
 		pInferior.add( bCancelar );
 		getContentPane().add( pInferior, BorderLayout.SOUTH );
+		
+		// NO AQUI - porque tiene que existir cuando se haya acabado el constructor
+		// HashMap<String,String> mapaNicksPassword;  // Clave = nick, Valor = password
+
 		// Eventos
 		// Con clase interna:
 		bCancelar.addActionListener( new EscuchadorCancelar() );
@@ -78,6 +82,7 @@ public class VentanaLogin extends JFrame {
 				}
 			}
 		);
+		
 		// Algunos otros eventos para entender su funcionamiento (solo sacan info a consola)
 		// Evento de la ventana
 		addWindowListener( new WindowListener() {
@@ -110,14 +115,28 @@ public class VentanaLogin extends JFrame {
 				System.out.println( "Evento windowOpened" + e );
 			}
 		});
+		// Si solo quieres programar un evento
+		addWindowListener( new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// Y aquí va mi código que se ejecuta al final
+			}
+		});
+		
 		// Evento de ratón - en el gráfico del logotipo
 		lLogotipo.addMouseListener( new MouseListener() {
+			long tiempo;
+			Point punto;
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				System.out.println( "Evento mouseReleased " + e );
+				System.out.println( "Tiempo = " + (System.currentTimeMillis() - tiempo));
+				System.out.println( "Movimiento: " + punto + " a " + e.getPoint() );
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
+				tiempo = System.currentTimeMillis();
+				punto = e.getPoint();
 				System.out.println( "Evento mousePressed " + e );
 			}
 			@Override
@@ -194,10 +213,11 @@ public class VentanaLogin extends JFrame {
 	class EscuchadorCancelar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			// Acceso a todos los atributos
 			dispose();
 		}
 	}
-	
+
 	// Método de inicialización de claves - por código (normalmente se haría con un fichero o base de datos)
 	private void initClaves() {
 		mapaNicksPassword = new HashMap<>();

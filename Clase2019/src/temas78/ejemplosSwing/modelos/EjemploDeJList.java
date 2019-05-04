@@ -6,6 +6,9 @@ import javax.swing.event.*;
 import java.awt.event.*;
 import java.util.Random;
 
+/** Ejemplo de JList y modelo
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ */
 public class EjemploDeJList {
 
 	private static JList<String> lNombres;

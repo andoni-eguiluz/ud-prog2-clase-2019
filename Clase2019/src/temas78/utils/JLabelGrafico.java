@@ -8,6 +8,7 @@ import javax.swing.*;
 
 
 /** Clase de label gráfico mejorada con capacidad de escalarse, rotar, y transparentarse
+ * (la escala no afecta al tamaño del label con lo cual puede verse recortado)
  * @author andoni.eguiluz at deusto.es
  */
 public class JLabelGrafico extends JLabel {
@@ -17,8 +18,8 @@ public class JLabelGrafico extends JLabel {
 		// Atributos temporales para el main de prueba
 		private static boolean acaba = false;
 		private static float hazTransparente = 1.0f;  // 1.0 para hacer opaco, 0.0 para hacer transparente
-		private static double posX = 0;
-		private static double posY = 0;
+		private static double posX = 200;
+		private static double posY = 100;
 		private static double velX = 0;
 		private static double velY = 0;
 		private static double tiempoAnimacion = 0;
@@ -31,11 +32,14 @@ public class JLabelGrafico extends JLabel {
 	public static void main(String[] args) {
 		JLabelGrafico o = new JLabelGrafico( "/img/coches/coche.png", 300, 300, Math.PI, 4.0 );
 		o.setLocation( (int) Math.round(posX), (int) Math.round(posY) );
+		JPanel p = new JPanel();
+		p.setLayout( null );
+		p.add( o );
 		// o.setBorder( BorderFactory.createLineBorder( Color.magenta, 1 )); // TODO Quitar para no ver el borde
 		javax.swing.JFrame v = new javax.swing.JFrame();
-		v.getContentPane().setLayout( null );
 		v.setDefaultCloseOperation( javax.swing.JFrame.DISPOSE_ON_CLOSE );
-		v.getContentPane().add( o );
+		v.getContentPane().add( p, BorderLayout.CENTER );
+		v.getContentPane().add( new JLabel( "Click para transparencia, drag para movimiento" ), BorderLayout.SOUTH );
 		v.setSize( 800, 600 );
 		v.setVisible( true );
 		boolean zoomCreciendo = false;

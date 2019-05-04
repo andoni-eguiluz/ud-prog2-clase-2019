@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /** Clase mejorada de JLabel para gestionar imágenes ajustadas al JLabel, con escala, rotación y transparencia
+ * (la escala se relaciona con el tamaño del label para que no se recorte al cambiar de tamaño. Sí se puede recortar con la rotación)
  */
 public class JLabelGraficoAjustado extends JLabel {
 	
@@ -18,7 +19,9 @@ public class JLabelGraficoAjustado extends JLabel {
 	public static void main(String[] args) {
 		JFrame f = new JFrame( "Prueba JLabelGraficoAjustado" );
 		f.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		f.getContentPane().setLayout( null );
 		JLabelGraficoAjustado label = new JLabelGraficoAjustado( "/img/coches/coche.png", 100, 100 );
+		label.setLocation( 200, 100 );
 			// TODO probar este 300, 300 con diferentes tamaños. Si x<=0 ajusta el ancho y si es y<=0 ajusta el alto
 		f.setSize( 600, 400 );
 		f.add( label, BorderLayout.CENTER );
@@ -30,6 +33,22 @@ public class JLabelGraficoAjustado extends JLabel {
 		}
 		for (int op=-100; op<=100; op++ ) {
 			label.setOpacidad( Math.abs(op*0.01f) );
+			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de transparencias
+		}
+		for (int op=0; op<99; op++ ) {
+			label.setSize( label.getAnchuraObjeto()-1, label.getAlturaObjeto()-1 );
+			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de tamaño
+		}
+		for (int op=0; op<200; op++ ) {
+			label.setSize( label.getAnchuraObjeto()+1, label.getAlturaObjeto()+1 );
+			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre cambio de tamaño
+		}
+		for (int op=0; op<100; op++ ) {
+			label.setSize( label.getAnchuraObjeto()-1, label.getAlturaObjeto() );
+			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre aplastamiento de tamaño
+		}
+		for (int rot=0; rot<=200; rot++ ) {
+			label.setRotacion( rot*Math.PI/100 );
 			try { Thread.sleep( 20 ); } catch (Exception e) {}  // Espera dos décimas entre rotación y rotación
 		}
 	}

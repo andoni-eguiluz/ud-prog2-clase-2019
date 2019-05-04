@@ -14,7 +14,7 @@ public class EjemploGridBagLayout {
 	 * @param args	No utilizado
 	 */
 	public static void main(String[] args) {
-		//Schedule a job for the event-dispatching thread: creating and showing this application's GUI.
+		// Schedule a job for the event-dispatching thread: creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
@@ -47,7 +47,7 @@ public class EjemploGridBagLayout {
 		}
 
 		pane.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		GridBagConstraints c = new GridBagConstraints(); // Objeto principal de gridbag - es el que configura cada componente
 		c.fill = GridBagConstraints.HORIZONTAL;  // Rellenar el área horizontalmente por completo
 		c.weighty = 0.0;   // Valor por defecto (ver último componente)
 

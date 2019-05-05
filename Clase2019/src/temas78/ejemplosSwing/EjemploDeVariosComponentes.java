@@ -90,6 +90,7 @@ public class EjemploDeVariosComponentes extends JFrame {
 		taEscribeAqui.append( "JTextArea - texto multilínea\n" );
 		taEscribeAqui.append( "Tiene scroll que se ve cuando la línea es más ancha que lo que la ventana permite\n" );
 		taEscribeAqui.append( "O las líneas más altas\n" );
+		taEscribeAqui.append( "\nObserva que la progressbar desde el botón no funciona ¿por qué?\n" );
 		
 		// 4.- Asociación de componentes a contenedores
 		pBotonera.add( new JLabel( "Tu corazón está con..." ) );

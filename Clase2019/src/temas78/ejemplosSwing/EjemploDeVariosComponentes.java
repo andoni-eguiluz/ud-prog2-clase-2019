@@ -87,9 +87,9 @@ public class EjemploDeVariosComponentes extends JFrame {
 		// Ejemplo de border
 		pBotonera.setBorder( BorderFactory.createDashedBorder( Color.red, 10.0f, 5.0f ) );
 		spinValor.setPreferredSize( new Dimension( 60, 20 ) );  // Forzar la dimensión preferida del spinner (vale con cualquier componente)
-		for (int i=0; i<100; i++) {  // Añade 100 líneas a la textarea para que se vea el scroll vertical
-			taEscribeAqui.append( "Línea " + i + "\n" );
-		}
+		taEscribeAqui.append( "JTextArea - texto multilínea\n" );
+		taEscribeAqui.append( "Tiene scroll que se ve cuando la línea es más ancha que lo que la ventana permite\n" );
+		taEscribeAqui.append( "O las líneas más altas\n" );
 		
 		// 4.- Asociación de componentes a contenedores
 		pBotonera.add( new JLabel( "Tu corazón está con..." ) );
@@ -129,6 +129,8 @@ public class EjemploDeVariosComponentes extends JFrame {
 			public void stateChanged(ChangeEvent arg0) { 
 				// Al cambiar el spinner actualizamos el cuadro de texto
 				tfValor.setText( spinValor.getValue() + "" );
+				taEscribeAqui.append( "Actuación sobre el spinner\n" );
+				taEscribeAqui.setSelectionStart( taEscribeAqui.getText().length() );  // Al seleccionar el final del texto, se ve este punto en pantalla aunque el scroll se salga 
 			}
 		});
 		slValor.addChangeListener( new ChangeListener() {
@@ -136,11 +138,15 @@ public class EjemploDeVariosComponentes extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				// Al cambiar el slider actualizamos el cuadro de texto
 				tfValor.setText( slValor.getValue() + "" );
+				taEscribeAqui.append( "Actuación sobre el slider\n" );
+				taEscribeAqui.setSelectionStart( taEscribeAqui.getText().length() );  // Al seleccionar el final del texto, se ve este punto en pantalla aunque el scroll se salga 
 			}
 		});
 		bProgresa.addActionListener( new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				taEscribeAqui.append( "Actualizando barra de progreso...\n" );
+				taEscribeAqui.setSelectionStart( taEscribeAqui.getText().length() );  // Al seleccionar el final del texto, se ve este punto en pantalla aunque el scroll se salga 
 				// TODO ¿Por qué esto no funciona? Desde el main sí que funciona
 				for (int i=0; i<100; i++) {
 					pbProgreso.setValue( i );

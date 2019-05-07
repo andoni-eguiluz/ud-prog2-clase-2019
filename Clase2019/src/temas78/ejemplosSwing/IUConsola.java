@@ -32,7 +32,8 @@ public class IUConsola {
 				System.err.println( "Prueba consola error" );
 			} else if (numPrueba==3) {
 				lanzarConsolaEnIU( null, null );
-				System.out.println( "Prueba tilde: áéíóúñÑÁÉÍÓÚ" );
+				System.out.println( "El tipo de letra es Hack (cargado dinámicamente desde Java)" );
+				System.out.println( "Prueba de tildes: áéíóúñÑÁÉÍÓÚ" );
 				System.err.println( "Prueba consola error" );
 			}
 		} catch (FileNotFoundException e) {

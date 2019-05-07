@@ -95,7 +95,7 @@ public class JLabelGrafico extends JLabel {
 				tiempoAnimacion -= milisegundosEspera/1000.0;
 			}
 			// Espera unos milisegundos
-			try { Thread.sleep(milisegundosEspera); } catch (Exception e) {}
+			try { Thread.sleep(milisegundosEspera); } catch (InterruptedException e) {}
 		}
 	}
 	

@@ -6,7 +6,7 @@ import javax.swing.event.*;
 import java.awt.event.*;
 import java.util.Random;
 
-/** Ejemplo de JList y modelo
+/** Ejemplo de JList y modelo con problema de hilo Swing vs main
  * @author andoni.eguiluz at ingenieria.deusto.es
  */
 public class EjemploDeJList {

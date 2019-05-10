@@ -1,36 +1,14 @@
 package tema9;
 
-class Persona {
-	private String nombre;
-	Persona( String nombre ) {
-		this.nombre = nombre;
-	}
-	synchronized public void saluda( Persona amigo ) {
-    	// Saluda = sonreir + que él/ella sonría
-    	sonrie( amigo );
-    	amigo.sonrie( this );
-    }
-	synchronized public void sonrie( Persona p ) {
-    	System.out.println( this + " sonríe a " + p );
-    }
-    public String toString() {
-    	return nombre;
-    }
-}
-
+/** Ejemplo de problema de interbloqueo entre dos hilos en dos objetos compartidos mutuos
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ */
 public class EjemploProblemasInterbloqueo implements Runnable {
-	private Persona persona,amigo;
-	public EjemploProblemasInterbloqueo( Persona persona, Persona amigo ) {
-		this.persona = persona;
-		this.amigo = amigo;
-	}	
-	@Override
-	public void run() {
-		for (int i = 0; i<1000; i++) {
-			System.out.print( "(" + i + ")  " );
-			persona.saluda( amigo );
-		}
-	}
+	private static boolean COMPROBAR_BLOQUEOS = false;  // Cambiar si se quiere analizar el problema
+	
+	/** Prueba de problema - creamos dos amigos y les saludamos mutuamente con dos hilos distintos
+	 * @param s	No utilizado
+	 */
 	public static void main( String[] s ) {
 		Persona persona1 = new Persona( "Marta" );
 		Persona persona2 = new Persona( "Luis" );
@@ -41,7 +19,43 @@ public class EjemploProblemasInterbloqueo implements Runnable {
 		try {
 			t1.join();
 			t2.join();
-		} catch (InterruptedException e) {
-		}
+		} catch (InterruptedException e) {}
+		System.out.println( "Fin de saludos" );
 	}
+	
+	private Persona persona,amigo;
+	public EjemploProblemasInterbloqueo( Persona persona, Persona amigo ) {
+		this.persona = persona;
+		this.amigo = amigo;
+	}	
+	@Override
+	public void run() {
+		// Si hiciera falta repetir
+		// for (int i=0; i<50; i++) {
+							if (COMPROBAR_BLOQUEOS) System.err.println( "Hagamos que " + persona + " salude a " + amigo + ":" );
+			persona.saluda( amigo );
+		// }
+	}
+	
+	private static class Persona {
+		private String nombre;
+		Persona( String nombre ) {
+			this.nombre = nombre;
+		}
+		synchronized public void saluda( Persona amigo ) {
+							if (COMPROBAR_BLOQUEOS) System.err.println( "  Entrando en bloqueo por saludo de objeto " + this );
+	    	// Saluda = sonreir + que él/ella sonría
+	    	sonrie( amigo );
+	    					if (COMPROBAR_BLOQUEOS) System.err.println( "    Posible bloqueo de objeto " + amigo + " antes de que sonría a " + this );
+	    	amigo.sonrie( this );
+	    					if (COMPROBAR_BLOQUEOS) System.err.println( "  Saliendo de bloqueo por saludo de objeto " + this );
+	    }
+		synchronized public void sonrie( Persona p ) {
+	    	System.out.println( this + " sonríe a " + p );
+	    }
+	    public String toString() {
+	    	return nombre;
+	    }
+	}
+	
 }

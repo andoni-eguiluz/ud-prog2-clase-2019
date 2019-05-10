@@ -47,21 +47,21 @@ public class EjemploAudio {
 	}
 	
 	public static void main(String[] args) {
-		//pruebaSinHilos();
+		pruebaSinHilos();
 		pruebaConHilos();
 	}
 	
 	private static void pruebaSinHilos() {
-		lanzaAudio( "src/tema09/aplauso.wav" );
-		lanzaAudio( "src/tema09/timbre.wav" );
+		lanzaAudio( "src/tema9/timbre.wav" );
+		lanzaAudio( "src/tema9/aplauso.wav" );
 		System.out.println( "Sólo se ve después de los dos audios");
 	}
 
 	private static void pruebaConHilos() {
-		lanzaAudioEnHilo( "src/tema09/aplauso.wav" );
-		try { Thread.sleep(1000); } catch (Exception e) {}
-		lanzaAudioEnHilo( "src/tema09/timbre.wav" );
-		System.out.println( "Se lanza un audio, el otro en 1 segundo y se acaba");
+		lanzaAudioEnHilo( "src/tema9/timbre.wav" );
+		try { Thread.sleep(2000); } catch (Exception e) {}
+		lanzaAudioEnHilo( "src/tema9/aplauso.wav" );
+		System.out.println( "Se lanza un audio, el otro en 2 segundos y se acaba");
 	}
 	
 	private static String ficAudioActual = null;

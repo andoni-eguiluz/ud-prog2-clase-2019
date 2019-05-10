@@ -1,29 +1,10 @@
 package tema9;
 
-class Contador2 {
-    private int c = 0;
-    synchronized public void inc() {  
-    	// Haciendo c++ podría pasar pero se ve más claro en pasos:
-    	
-    	int d = c;
-    	d++;
-        c = d;
-    }
-
-    synchronized public void dec() {
-    	// Haciendo c-- podría pasar pero se ve más claro en pasos:
-    	
-    	int d = c;
-    	d--;
-        c = d;
-    }
-    public int getContador() {
-        return c;
-    }
-}
-
+/** Solución problema sincronización: synchronized
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ */
 public class EjemploProblemasSincronizacion2 implements Runnable {
-	private static Contador2 miContador = new Contador2();
+	private static Contador miContador = new Contador();
 	@Override
 	public void run() {
 		for (int i = 0; i<1000000000; i++) {
@@ -49,4 +30,23 @@ public class EjemploProblemasSincronizacion2 implements Runnable {
 		 System.out.println( "Contador = " + miContador.getContador() );  // Debería ser cero pero... 
 		 System.out.println( "Tiempo transcurrido: " + (System.currentTimeMillis() - tiempo) + " msgs." );
 	}
+	
+	private static class Contador {
+	    private int c = 0;
+	    synchronized public void inc() {  
+	    	int d = c;
+	    	d++;
+	        c = d;
+	    }
+
+	    synchronized public void dec() {
+	    	int d = c;
+	    	d--;
+	        c = d;
+	    }
+	    public int getContador() {
+	        return c;
+	    }
+	}
+	
 }

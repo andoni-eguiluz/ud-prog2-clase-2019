@@ -1,26 +1,9 @@
 package tema9;
 
-class Contador {
-    private int miContador = 0;
-    public void inc() {  
-    	// Haciendo miContador++ valdría 
-    	// pero se ve más claro el problema si se hace en pasos:
-    	int d = miContador;
-    	d++;
-        miContador = d;
-    }
-
-    public void dec() {
-    	// Haciendo miContador-- valdría
-    	int d = miContador;
-    	d--;
-        miContador = d;
-    }
-    public int getContador() {
-        return miContador;
-    }
-}
-
+/** Ejemplo de problema de sincronización en datos compartidos
+ * @author andoni.eguiluz at ingenieria.deusto.es
+ *
+ */
 public class EjemploProblemasSincronizacion implements Runnable {
 	private static Contador miContador = new Contador();
 	@Override
@@ -48,4 +31,27 @@ public class EjemploProblemasSincronizacion implements Runnable {
 		 System.out.println( "Contador = " + miContador.getContador() );  // Debería ser cero pero... 
 		 System.out.println( "Tiempo transcurrido: " + (System.currentTimeMillis() - tiempo) + " msgs." );
 	}
+	
+	private static class Contador {
+	    private int miContador = 0;
+	    public void inc() {  
+	    	// Haciendo miContador++ valdría 
+	    	// pero se ve más claro el problema si se hace en pasos:
+	    	int d = miContador;
+	    	d++;
+	        miContador = d;
+	    }
+
+	    public void dec() {
+	    	// Haciendo miContador-- valdría
+	    	int d = miContador;
+	    	d--;
+	        miContador = d;
+	    }
+	    public int getContador() {
+	        return miContador;
+	    }
+	}
+
+
 }

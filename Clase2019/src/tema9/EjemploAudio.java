@@ -48,7 +48,7 @@ public class EjemploAudio {
 	
 	public static void main(String[] args) {
 		pruebaSinHilos();
-		pruebaConHilos();
+		// pruebaConHilos();
 	}
 	
 	private static void pruebaSinHilos() {

@@ -7,9 +7,10 @@ public class EjemploHilos1 {
 		Thread hilo1 = new Thread( r1 );
 		hilo1.start();
 		Thread hilo2 = new Thread2();
+		hilo2.setDaemon( true );  // Añadido para parada por daemon del hilo más largo
 		hilo2.start();
 		// 3 hilos
-		for (int i=0; i<20; i++) {
+		for (int i=0; i<10; i++) {
 			System.out.println( "funcionando" );
 			try { Thread.sleep(1000); } catch (InterruptedException e) {}
 		}

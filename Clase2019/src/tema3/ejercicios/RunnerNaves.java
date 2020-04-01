@@ -51,6 +51,7 @@ public class RunnerNaves {
 	public void jugar() {
 		random = new Random();
 		vent = new VentanaGrafica( 1200, 600, "Runner de naves" );
+		vent.getJFrame().setResizable(false);
 		crearNaves();
 		mover();
 	}
